@@ -102,7 +102,7 @@ Class ParentMeta extends \Elementor\Core\DynamicTags\Tag {
 
         $current = get_post();
         if ($current && $parent = get_post_parent($current)) {
-            echo implode(",", get_post_meta($parent->ID, $meta_key));
+            echo esc_html(implode(",", get_post_meta($parent->ID, $meta_key)));
         }
     }
 }

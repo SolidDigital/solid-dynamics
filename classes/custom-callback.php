@@ -37,7 +37,7 @@ class CustomCallback extends \Elementor\Core\DynamicTags\Tag {
       $callback = $this->get_settings( 'callback' );
 
       if (is_callable($callback)) {
-          echo $callback($post);
+          echo esc_html($callback($post));
       }
   }
 }
