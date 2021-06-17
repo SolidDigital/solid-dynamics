@@ -18,8 +18,11 @@ Also, the plugin passes the current post as the first argument to the function, 
 1. Download, unzip, and upload the plugin folder to `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
+== Screenshots ==
+
+1. Custom Callback Dynamic Tag using the wp function `wp_get_post_parent_id`.
+
 == Changelog ==
 
 = 1.0.0 =
-
 * Inital release

@@ -1,0 +1,28 @@
+=== Solid Dynamics ===
+Contributors: soliddigital,lukechinworth,peterajtai
+Tags: elementor, dynamic tags, jet engine, macros
+Tested up to: 5.7.2
+Stable tag: 1.0.0
+License: GPLv2
+
+Custom callbacks for elementor dynamic tags and jet engine macros.
+
+== Description ==
+
+This plugin provides wrapper elementor dynamic tags and jet engine macros to allow you to call any function you want. Write the function in functions.php, then call it from elementor. Helpful for teams of developers and designers working together.
+
+Also, the plugin passes the current post as the first argument to the function, helpful for built-in wp functions that take the post as the first argument.
+
+== Installation ==
+
+1. Download, unzip, and upload the plugin folder to `/wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
+
+== Screenshots ==
+
+1. Custom Callback Dynamic Tag using the wp function `wp_get_post_parent_id`.
+
+== Changelog ==
+
+= 1.0.0 =
+* Inital release
