@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Solid Dynamics
  * Description:       Custom callbacks for elementor dynamic tags and jet engine macros.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Solid Digital
  * Author URI:        https://www.soliddigital.com
  * License:           GPLv2
@@ -29,11 +29,13 @@ add_action( 'elementor/dynamic_tags/register_tags', function( $dynamic_tags ) {
     include_once( __DIR__ . "/classes/parent-meta.php" );
     include_once( __DIR__ . "/classes/parent-meta-image.php" );
     include_once( __DIR__ . "/classes/custom-callback.php" );
+    include_once( __DIR__ . "/classes/menu.php.php" );
 
     // Finally register the tag
     $dynamic_tags->register_tag( '\Solid\ParentMeta' );
     $dynamic_tags->register_tag( '\Solid\ParentMetaImage' );
     $dynamic_tags->register_tag( '\Solid\CustomCallback' );
+    $dynamic_tags->register_tag( '\Solid\Menu' );
 } );
 
 include_once( __DIR__ . "/classes/custom-callback-macro.php" );
