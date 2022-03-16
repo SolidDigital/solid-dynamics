@@ -9,7 +9,11 @@ Custom callbacks for elementor dynamic tags and jet engine macros.
 
 == Description ==
 
-This plugin provides wrapper elementor dynamic tags and jet engine macros to allow you to call any function you want. Write the function in functions.php, then call it from elementor. Helpful for teams of developers and designers working together.
+This plugin provides several dynamic tags. They're all found under the "Solid Dynamics" section.
+
+- `Custom Callback`: An Elementor dynamic tag and jet engine macro to allow you to call any function you want. Write the function in functions.php, then call it from Elementor. Helpful for teams of developers and designers working together.
+- `Menu`: Returns the ids of the post of a specific menu id
+- `Parent Meta`: Retrieves the meta value of the parent post based on the entered meta key
 
 Also, the plugin passes the current post as the first argument to the function, helpful for built-in wp functions that take the post as the first argument.
 
@@ -21,6 +25,7 @@ Also, the plugin passes the current post as the first argument to the function, 
 == Screenshots ==
 
 1. Custom Callback Dynamic Tag using the wp function `wp_get_post_parent_id`.
+2. Custom Menu Dynamic Tag
 
 == Changelog ==
 

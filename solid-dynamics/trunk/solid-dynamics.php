@@ -29,7 +29,7 @@ add_action( 'elementor/dynamic_tags/register_tags', function( $dynamic_tags ) {
     include_once( __DIR__ . "/classes/parent-meta.php" );
     include_once( __DIR__ . "/classes/parent-meta-image.php" );
     include_once( __DIR__ . "/classes/custom-callback.php" );
-    include_once( __DIR__ . "/classes/menu.php.php" );
+    include_once( __DIR__ . "/classes/menu.php" );
 
     // Finally register the tag
     $dynamic_tags->register_tag( '\Solid\ParentMeta' );

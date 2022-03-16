@@ -104,6 +104,6 @@ Class Menu extends \Elementor\Core\DynamicTags\Tag {
         // The object_id is the post the menu item refers to.
         $ids = wp_list_pluck( $items, 'object_id' );
 
-        return join(',', $ids);
+        echo join(',', $ids);
     }
 }
