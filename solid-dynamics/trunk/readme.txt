@@ -26,6 +26,7 @@ Also, the plugin passes the current post as the first argument to the function, 
 
 1. Custom Callback Dynamic Tag using the wp function `wp_get_post_parent_id`.
 2. Custom Menu Dynamic Tag
+3. The various Dynamic Tag options
 
 == Changelog ==
 
