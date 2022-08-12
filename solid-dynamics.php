@@ -18,7 +18,17 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-add_action( 'elementor/dynamic_tags/register_tags', function( $dynamic_tags ) {
+add_action( 'elementor/dynamic_tags/register_tags', 'Solid\elementor_dynamic_tags_register_tags');
+
+include_once( __DIR__ . "/classes/custom-callback-macro.php" );
+
+new CustomCallbackMacro();
+
+include_once( __DIR__ . "/classes/settings.php" );
+
+new Settings();
+
+function elementor_dynamic_tags_register_tags( $dynamic_tags ) {
     // In our Dynamic Tag we use a group named request-variables so we need
     // To register that group as well before the tag
     \Elementor\Plugin::$instance->dynamic_tags->register_group( 'solid-dynamics', [
@@ -36,8 +46,4 @@ add_action( 'elementor/dynamic_tags/register_tags', function( $dynamic_tags ) {
     $dynamic_tags->register_tag( '\Solid\ParentMetaImage' );
     $dynamic_tags->register_tag( '\Solid\CustomCallback' );
     $dynamic_tags->register_tag( '\Solid\Menu' );
-} );
-
-include_once( __DIR__ . "/classes/custom-callback-macro.php" );
-
-new CustomCallbackMacro();
+}
