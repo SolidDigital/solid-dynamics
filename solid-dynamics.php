@@ -24,9 +24,13 @@ include_once( __DIR__ . "/classes/custom-callback-macro.php" );
 
 new CustomCallbackMacro();
 
-include_once( __DIR__ . "/classes/settings.php" );
+include_once( __DIR__ . "/classes/settings-page.php" );
 
-new Settings();
+new SettingsPage();
+
+include_once( __DIR__ . "/classes/feature-elementor-include-back-to-wp-editor-button.php" );
+
+new FeatureElementorIncludeBackToWPEditorButton();
 
 function elementor_dynamic_tags_register_tags( $dynamic_tags ) {
     // In our Dynamic Tag we use a group named request-variables so we need
