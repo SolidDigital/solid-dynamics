@@ -8,47 +8,41 @@ class Settings {
     }
 
     function admin_init() {
-        register_setting( 'solid_dynamics', 'solid_dynamics_options' );
-
         add_settings_section(
             'solid_dynamics_elementor',
             __( 'Elementor Settings', 'solid-dynamics' ),
-            [$this, 'section_elementor'],
+            '__return_false',
             'solid_dynamics'
         );
 
+        register_setting( 'solid_dynamics', 'include_back_to_wp_editor_button' );
+
         add_settings_field(
-            'include_back_to_wp_button', // As of WP 4.6 this value is used only internally.
-            __( 'Include Elementor "Back to WordPress" Button', 'solid-dynamics' ),
-            [$this, 'field_elementor_include_back_to_wp_button'],
+            'include_back_to_wp_editor_button',
+            __( 'Include "Back to WordPress Editor" Button', 'solid-dynamics' ),
+            [$this, 'field_elementor_include_back_to_wp_editor_button'],
             'solid_dynamics',
             'solid_dynamics_elementor',
             array(
-                'label_for'         => 'include_back_to_wp_button',
+                'label_for'         => 'include_back_to_wp_editor_button',
                 'class'             => 'solid_dynamics_row',
             )
         );
     }
 
-    function section_elementor( $args ) {
-        ?>
-        <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Elementor Section', 'solid-dynamics' ); ?></p>
-        <?php
-    }
-
-    function field_elementor_include_back_to_wp_button($args) {
+    function field_elementor_include_back_to_wp_editor_button($args) {
         // Get the value of the setting we've registered with register_setting()
-        $options = get_option( 'solid_dynamics_options' );
+        $option = get_option( $args['label_for'] );
         ?>
         <input
             type="checkbox"
             id="<?php echo esc_attr( $args['label_for'] ); ?>"
-            name="solid_dynamics[<?php echo esc_attr( $args['label_for'] ); ?>]"
+            name="<?php echo esc_attr( $args['label_for'] ); ?>"
             value="1"
-            <?php echo isset( $options[ $args['label_for'] ] ) ? ( checked( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>
+            <?php checked( $option, 1 ) ?>
         />
         <p class="description">
-            <?php esc_html_e( 'This controls the display of the "<- Back to WordPress" button on the post edit page.', 'solid-dynamics' ); ?>
+            <?php esc_html_e( 'This controls the display of the "<- Back to WordPress Editor" button on the post edit page.', 'solid-dynamics' ); ?>
         </p>
         <?php
     }

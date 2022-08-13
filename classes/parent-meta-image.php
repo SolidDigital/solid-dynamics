@@ -18,7 +18,6 @@ class ParentMetaImage extends \Elementor\Core\DynamicTags\Data_Tag {
         return [
             \Elementor\Modules\DynamicTags\Module::IMAGE_CATEGORY,
             \Elementor\Modules\DynamicTags\Module::MEDIA_CATEGORY,
-            \Jet_Engine_Dynamic_Tags_Module::IMAGE_CATEGORY,
         ];
     }
 
