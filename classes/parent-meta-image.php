@@ -15,11 +15,16 @@ class ParentMetaImage extends \Elementor\Core\DynamicTags\Data_Tag {
     }
 
     public function get_categories() {
-        return [
+        $cats = [
             \Elementor\Modules\DynamicTags\Module::IMAGE_CATEGORY,
             \Elementor\Modules\DynamicTags\Module::MEDIA_CATEGORY,
-            \Jet_Engine_Dynamic_Tags_Module::IMAGE_CATEGORY,
         ];
+
+        if (class_exists('Jet_Engine_Dynamic_Tags_Module')) {
+            $cats[] = \Jet_Engine_Dynamic_Tags_Module::IMAGE_CATEGORY;
+        }
+
+        return $cats;
     }
 
     protected function _register_controls() {
