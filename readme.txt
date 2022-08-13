@@ -7,6 +7,8 @@ License: GPLv2
 
 Custom callbacks for elementor dynamic tags and jet engine macros.
 
+The code is managed in [github/soliddigital/solid-dynamics](https://github.com/SolidDigital/solid-dynamics) and synced to [WordPress' Solid Dynamics SVN repo](https://plugins.trac.wordpress.org/browser/solid-dynamics/).
+
 == Description ==
 
 This plugin provides several dynamic tags. They're all found under the "Solid Dynamics" section.
