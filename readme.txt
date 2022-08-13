@@ -1,8 +1,8 @@
 === Solid Dynamics ===
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
-Tested up to: 6.0
-Stable tag: 1.1.2
+Tested up to: 6.0.1
+Stable tag: 1.1.3
 License: GPLv2
 
 Custom callbacks for elementor dynamic tags and jet engine macros.
