@@ -1,8 +1,7 @@
 <?php
 namespace Solid;
 
-class CustomCallbackMacro {
-
+class JetEngineMacros {
   function __construct() {
     add_filter('jet-engine/listings/macros-list', [$this, 'macros_list']);
   }

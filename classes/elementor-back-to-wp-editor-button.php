@@ -1,9 +1,9 @@
 <?php
 namespace Solid;
 
-class FeatureElementorShowBackToWPEditorButton {
-    const SETTING_KEY = 'elementor_show_back_to_wp_editor_button';
-    const SETTING_DEFAULT = 1;
+class ElementorBackToWPEditorButton {
+    const SETTING_KEY = 'elementor_hide_back_to_wp_editor_button';
+    const SETTING_DEFAULT = 0;
 
     function __construct() {
         add_action( 'admin_init', [$this, 'admin_init'] );
@@ -26,15 +26,15 @@ class FeatureElementorShowBackToWPEditorButton {
 
         ?>
         <input type="hidden" name="<?php echo esc_attr( $name ); ?>" value="0">
-        <input
-            type="checkbox"
-            id="<?php echo esc_attr( self::SETTING_KEY ); ?>"
-            name="<?php echo esc_attr( $name ); ?>"
-            value="1"
-            <?php checked( $setting, 1 ) ?>
-        />
         <label for="<?php echo esc_attr( self::SETTING_KEY ); ?>">
-            <?php esc_html_e( 'Show the "Back to WordPress Editor" button on the post page.', 'solid-dynamics' ); ?>
+            <input
+                type="checkbox"
+                id="<?php echo esc_attr( self::SETTING_KEY ); ?>"
+                name="<?php echo esc_attr( $name ); ?>"
+                value="1"
+                <?php checked( $setting, 1 ) ?>
+            />
+            <?php esc_html_e( 'Hide the "Back to WordPress Editor" button on the post page.', 'solid-dynamics' ); ?>
         </label>
         <?php
     }
@@ -42,7 +42,7 @@ class FeatureElementorShowBackToWPEditorButton {
     function admin_head() {
         $screen = get_current_screen();
 
-        if ($screen->base === 'post' && !self::get_setting()) {
+        if ($screen->base === 'post' && self::get_setting()) {
             ?>
             <style>
                 body.elementor-editor-active #elementor-switch-mode {

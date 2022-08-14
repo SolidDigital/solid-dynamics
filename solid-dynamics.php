@@ -18,36 +18,19 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-add_action( 'elementor/dynamic_tags/register_tags', 'Solid\elementor_dynamic_tags_register_tags');
+include_once( __DIR__ . "/classes/elementor-dynamic-tags.php" );
 
-include_once( __DIR__ . "/classes/custom-callback-macro.php" );
+new ElementorDynamicTags();
 
-new CustomCallbackMacro();
+include_once( __DIR__ . "/classes/jet-engine-macros.php" );
+
+new JetEngineMacros();
 
 include_once( __DIR__ . "/classes/settings-page.php" );
 
 new SettingsPage();
 
-include_once( __DIR__ . "/classes/feature-elementor-show-back-to-wp-editor-button.php" );
+include_once( __DIR__ . "/classes/elementor-back-to-wp-editor-button.php" );
 
-new FeatureElementorShowBackToWPEditorButton();
+new ElementorBackToWPEditorButton();
 
-function elementor_dynamic_tags_register_tags( $dynamic_tags ) {
-    // In our Dynamic Tag we use a group named request-variables so we need
-    // To register that group as well before the tag
-    \Elementor\Plugin::$instance->dynamic_tags->register_group( 'solid-dynamics', [
-        'title' => 'Solid Dynamics'
-    ] );
-
-    // Include the Dynamic tag class file
-    include_once( __DIR__ . "/classes/parent-meta.php" );
-    include_once( __DIR__ . "/classes/parent-meta-image.php" );
-    include_once( __DIR__ . "/classes/custom-callback.php" );
-    include_once( __DIR__ . "/classes/menu.php" );
-
-    // Finally register the tag
-    $dynamic_tags->register_tag( '\Solid\ParentMeta' );
-    $dynamic_tags->register_tag( '\Solid\ParentMetaImage' );
-    $dynamic_tags->register_tag( '\Solid\CustomCallback' );
-    $dynamic_tags->register_tag( '\Solid\Menu' );
-}
