@@ -12,6 +12,7 @@ class SettingsPage {
     }
 
     function admin_init() {
+        // Store all plugin settings as serialized array in single wp_options row.
         register_setting(
             SETTINGS_PAGE_KEY,
             SETTINGS_OPTION_KEY,
@@ -33,14 +34,6 @@ class SettingsPage {
     }
 
     function options_page() {
-        // TODO: fix double notice.
-        if ( isset( $_GET['settings-updated'] ) ) {
-            // add settings saved message with the class of "updated"
-            add_settings_error( 'solid_dynamics_messages', 'solid_dynamics_message', __( 'Settings Saved', 'solid-dynamics' ), 'updated' );
-        }
-
-        // show error/update messages
-        settings_errors( 'solid_dynamics_messages' );
         ?>
         <div class="wrap">
             <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>

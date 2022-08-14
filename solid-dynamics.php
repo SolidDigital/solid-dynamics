@@ -28,9 +28,9 @@ include_once( __DIR__ . "/classes/settings-page.php" );
 
 new SettingsPage();
 
-include_once( __DIR__ . "/classes/feature-elementor-include-back-to-wp-editor-button.php" );
+include_once( __DIR__ . "/classes/feature-elementor-show-back-to-wp-editor-button.php" );
 
-new FeatureElementorIncludeBackToWPEditorButton();
+new FeatureElementorShowBackToWPEditorButton();
 
 function elementor_dynamic_tags_register_tags( $dynamic_tags ) {
     // In our Dynamic Tag we use a group named request-variables so we need
