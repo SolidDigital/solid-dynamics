@@ -1,11 +1,13 @@
 === Solid Dynamics ===
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
-Tested up to: 6.0
-Stable tag: 1.1.2
+Tested up to: 6.0.1
+Stable tag: 1.1.3
 License: GPLv2
 
 Custom callbacks for elementor dynamic tags and jet engine macros.
+
+The code is managed in [github/soliddigital/solid-dynamics](https://github.com/SolidDigital/solid-dynamics) and synced to [WordPress' Solid Dynamics SVN repo](https://plugins.trac.wordpress.org/browser/solid-dynamics/).
 
 == Description ==
 
@@ -29,13 +31,15 @@ Also, the plugin passes the current post as the first argument to the function, 
 3. The various Dynamic Tag options
 
 == Changelog ==
+= 1.1.3 =
+- Bug fix: Do not try to load JetEngine if plugin is nto preseent
 
 = 1.1.2 =
-* Escape custom callback output with wp_kses_post since it could include html.
-* Escape the menu output with esc_html since it should only be comma-separated ids.
+- Bug fix: Escape custom callback output with wp_kses_post since it could include html.
+- Bug fix: Escape the menu output with esc_html since it should only be comma-separated ids.
 
 = 1.1.0 =
-* Add menu dynamic tag.
+- Feature: Add menu dynamic tag.
 
 = 1.0.0 =
-* Inital release
+- Feature: Initial release
