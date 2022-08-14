@@ -21,7 +21,6 @@ class FeatureElementorShowBackToWPEditorButton {
     }
 
     function settings_page_field($args) {
-        // Get the value of the setting we've registered with register_setting()
         $setting = self::get_setting();
         $name = SETTINGS_OPTION_KEY . '[' . self::SETTING_KEY . ']';
 
