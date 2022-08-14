@@ -1,23 +1,28 @@
 === Solid Dynamics ===
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
-Tested up to: 6.0.1
+Tested up to: 6.0
 Stable tag: 1.1.3
+Requires PHP: 7.0
 License: GPLv2
 
-Custom callbacks for elementor dynamic tags and jet engine macros.
-
-The code is managed in [github/soliddigital/solid-dynamics](https://github.com/SolidDigital/solid-dynamics) and synced to [WordPress' Solid Dynamics SVN repo](https://plugins.trac.wordpress.org/browser/solid-dynamics/).
+Helpful utilities for Elementor, Jet Engine, and beyond.
 
 == Description ==
 
-This plugin provides several dynamic tags. They're all found under the "Solid Dynamics" section.
+This plugin provides several dynamic tags under the "Solid Dynamics" section:
 
-- `Custom Callback`: An Elementor dynamic tag and jet engine macro to allow you to call any function you want. Write the function in functions.php, then call it from Elementor. Helpful for teams of developers and designers working together.
-- `Menu`: Returns the ids of the post of a specific menu id
-- `Parent Meta`: Retrieves the meta value of the parent post based on the entered meta key
+- `Custom Callback`: Calls the entered function, passing the current post as the first argument.
+- `Menu`: Returns the ids of the post of a specific menu id.
+- `Parent Meta`: Retrieves the meta value of the parent post based on the entered meta key.
 
-Also, the plugin passes the current post as the first argument to the function, helpful for built-in wp functions that take the post as the first argument.
+This plugin also provides several settings at Settings > Solid Dynamics:
+
+- Elementor "Back to WordPress Editor" Button - Hide this button to prevent editors from reverting elementor page back to wp editor.
+
+== Contributing ==
+
+The code is managed on [github](https://github.com/SolidDigital/solid-dynamics), and synced to [WordPress' Solid Dynamics SVN repo](https://plugins.trac.wordpress.org/browser/solid-dynamics/).
 
 == Installation ==
 

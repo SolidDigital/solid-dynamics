@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:       Solid Dynamics
- * Description:       Custom callbacks for elementor dynamic tags and jet engine macros.
+ * Description:       Helpful utilities for Elementor, Jet Engine, and beyond.
  * Version:           1.1.3
  * Author:            Solid Digital
  * Author URI:        https://www.soliddigital.com
