@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Solid Dynamics
  * Description:       Helpful utilities for Elementor, Jet Engine, and beyond.
- * Version:           1.1.3
+ * Version:           1.2.0
  * Author:            Solid Digital
  * Author URI:        https://www.soliddigital.com
  * License:           GPLv2
@@ -33,4 +33,3 @@ new SettingsPage();
 include_once( __DIR__ . "/classes/elementor-back-to-wp-editor-button.php" );
 
 new ElementorBackToWPEditorButton();
-

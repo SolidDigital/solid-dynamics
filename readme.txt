@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.0
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 Requires PHP: 7.0
 License: GPLv2
 
@@ -36,6 +36,10 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.2.0 =
+- Feature: add settings page with option to remove elementor's "back to wp editor" button.
+
 = 1.1.3 =
 - Bug fix: Do not try to load JetEngine if plugin is nto preseent
 
