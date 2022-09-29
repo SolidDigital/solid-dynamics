@@ -15,10 +15,12 @@ class ElementorDynamicTags {
         include_once( __DIR__ . "/parent-meta-image.php" );
         include_once( __DIR__ . "/custom-callback.php" );
         include_once( __DIR__ . "/menu.php" );
+        include_once( __DIR__ . "/list-pluck.php" );
 
         $dynamic_tags->register( new \Solid\ParentMeta() );
         $dynamic_tags->register( new \Solid\ParentMetaImage() );
         $dynamic_tags->register( new \Solid\CustomCallback() );
         $dynamic_tags->register( new \Solid\Menu() );
+        $dynamic_tags->register( new \Solid\ListPluck() );
     }
 }

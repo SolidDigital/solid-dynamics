@@ -41,7 +41,7 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 - Feature: add settings page with option to remove elementor's "back to wp editor" button.
 
 = 1.1.3 =
-- Bug fix: Do not try to load JetEngine if plugin is nto preseent
+- Bug fix: Do not try to load JetEngine if plugin is not preseent
 
 = 1.1.2 =
 - Bug fix: Escape custom callback output with wp_kses_post since it could include html.
