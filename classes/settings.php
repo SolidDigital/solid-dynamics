@@ -1,0 +1,12 @@
+<?php
+namespace Solid;
+
+class Settings {
+  function __construct() {
+    require_once( __DIR__ . "/settings-page.php" );
+    new SettingsPage();
+
+    include_once( __DIR__ . "/elementor-back-to-wp-editor-button.php" );
+    new ElementorBackToWPEditorButton();
+  }
+}

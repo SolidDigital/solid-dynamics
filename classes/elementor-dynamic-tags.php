@@ -11,11 +11,11 @@ class ElementorDynamicTags {
             'title' => 'Solid Dynamics'
         ] );
 
-        include_once( __DIR__ . "/parent-meta.php" );
-        include_once( __DIR__ . "/parent-meta-image.php" );
-        include_once( __DIR__ . "/custom-callback.php" );
-        include_once( __DIR__ . "/menu.php" );
-        include_once( __DIR__ . "/list-pluck.php" );
+        require_once( __DIR__ . "/parent-meta.php" );
+        require_once( __DIR__ . "/parent-meta-image.php" );
+        require_once( __DIR__ . "/custom-callback.php" );
+        require_once( __DIR__ . "/menu.php" );
+        require_once( __DIR__ . "/list-pluck.php" );
 
         $dynamic_tags->register( new \Solid\ParentMeta() );
         $dynamic_tags->register( new \Solid\ParentMetaImage() );

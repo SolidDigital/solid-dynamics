@@ -18,18 +18,14 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-include_once( __DIR__ . "/classes/elementor-dynamic-tags.php" );
+require_once( __DIR__ . "/classes/elementor-dynamic-tags.php" );
 
 new ElementorDynamicTags();
 
-include_once( __DIR__ . "/classes/jet-engine-macros.php" );
+require_once( __DIR__ . "/classes/jet-engine-macros.php" );
 
 new JetEngineMacros();
 
-include_once( __DIR__ . "/classes/settings-page.php" );
+require_once( __DIR__ . "/classes/settings.php" );
 
-new SettingsPage();
-
-include_once( __DIR__ . "/classes/elementor-back-to-wp-editor-button.php" );
-
-new ElementorBackToWPEditorButton();
+new Settings();
