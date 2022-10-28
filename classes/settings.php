@@ -8,5 +8,8 @@ class Settings {
 
     include_once( __DIR__ . "/elementor-back-to-wp-editor-button.php" );
     new ElementorBackToWPEditorButton();
+
+    include_once( __DIR__ . "/hello-elementor-page-title.php" );
+    new HelloElementorPageTitle();
   }
 }
