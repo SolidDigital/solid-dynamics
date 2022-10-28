@@ -11,5 +11,8 @@ class Settings {
 
     include_once( __DIR__ . "/hello-elementor-page-title.php" );
     new HelloElementorPageTitle();
+
+    include_once( __DIR__ . "/elementor-wrap-content.php" );
+    new ElementorWrapContent();
   }
 }
