@@ -41,6 +41,10 @@ class Settings {
 	function init() {
 		$settings = $this->wpsf->get_settings();
 
+		if ($settings['general_disable_404_permalink_guessing']) {
+			add_filter('do_redirect_guess_404_permalink', '__return_false');
+		}
+
 		if ($settings['elementor_hide_back_to_wp_editor_button']) {
 			add_action( 'admin_head', [$this, 'admin_head'] );
 		}
@@ -84,4 +88,6 @@ class Settings {
 		</main>
 		<?php
 	}
+
+
 }

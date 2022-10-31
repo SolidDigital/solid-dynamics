@@ -4,6 +4,21 @@ add_filter( 'wpsf_register_settings_solid_dynamics', 'wpsf_register_settings' );
 
 function wpsf_register_settings( $wpsf_settings ) {
 	$wpsf_settings[] = array(
+		'section_id'            => 'general',
+		'section_title'         => 'General',
+		'section_order'         => 10,
+		'fields'                => array(
+			array(
+				'id'      => 'disable_404_permalink_guessing',
+				'title'   => '404 Permalink Guessing',
+				'desc'    => 'Disable permalink guessing for 404s.',
+				'type'    => 'checkbox',
+				'default' => 0,
+			),
+		),
+	);
+
+	$wpsf_settings[] = array(
 		'section_id'            => 'elementor',
 		'section_title'         => 'Elementor',
 		'section_order'         => 10,
