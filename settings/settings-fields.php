@@ -44,6 +44,13 @@ function wpsf_register_settings( $wpsf_settings ) {
 				'type'    => 'checkbox',
 				'default' => 0,
 			),
+			array(
+				'id'      => 'subtle_fade_in_entrance_animations',
+				'title'   => 'Fade in Entrance Animations',
+				'desc'    => 'Make Elementor fade in entrance animations more subtle.',
+				'type'    => 'checkbox',
+				'default' => 0,
+			),
 		),
 	);
 

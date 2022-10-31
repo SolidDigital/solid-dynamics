@@ -46,7 +46,7 @@ class Settings {
 		}
 
 		if ($settings['elementor_hide_back_to_wp_editor_button']) {
-			add_action( 'admin_head', [$this, 'admin_head'] );
+			add_action( 'admin_head', [$this, 'elementor_hide_back_to_wp_editor_button'] );
 		}
 
 		if ($settings['elementor_hide_hello_elementor_page_title']) {
@@ -60,9 +60,13 @@ class Settings {
 			add_action( 'elementor/theme/before_do_archive', [$this, 'main_open'] );
 			add_action( 'elementor/theme/after_do_archive', [$this, 'main_close'] );
 		}
+
+		if ($settings['elementor_subtle_fade_in_entrance_animations']) {
+			add_action( 'wp_enqueue_scripts', [$this, 'elementor_subtle_fade_in_entrance_animations'] );
+		}
 	}
 
-	function admin_head() {
+	function elementor_hide_back_to_wp_editor_button() {
 		$screen = get_current_screen();
 
 		if ($screen->base === 'post') {
@@ -89,5 +93,7 @@ class Settings {
 		<?php
 	}
 
-
+	function elementor_subtle_fade_in_entrance_animations() {
+		wp_enqueue_style('sd-elementor-subtle-fade-in-entrance-animations', plugin_dir_url(__DIR__) . 'assets/elementor-subtle-fade-in-entrance-animations.css', ['e-animations'], '1.0.0');
+	}
 }

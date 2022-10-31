@@ -1,0 +1,40 @@
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -10%, 0)
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@keyframes fadeInLeft {
+	from {
+		opacity: 0;
+		transform: translate3d(-10%, 0, 0)
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@keyframes fadeInRight {
+	from {
+		opacity: 0;
+		transform: translate3d(10%, 0, 0)
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translate3d(0, 10%, 0)
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
