@@ -17,7 +17,7 @@ class Settings {
 		add_filter( $this->wpsf->get_option_group() . '_settings_validate', array( &$this, 'validate_settings' ) );
 
 		// Settings behavior hooks.
-		add_action( 'admin_head', [$this, 'admin_head'] );
+		add_action( 'init', [$this, 'init'] );
 	}
 
 	public function add_settings_page() {
@@ -37,12 +37,31 @@ class Settings {
 		return $input;
 	}
 
-	function admin_head() {
-		$setting = wpsf_get_setting( 'solid_dynamics', 'elementor', 'hide_back_to_wp_editor_button' );
+	// Get settings and apply hooks as needed.
+	function init() {
+		$settings = $this->wpsf->get_settings();
 
+		if ($settings['elementor_hide_back_to_wp_editor_button']) {
+			add_action( 'admin_head', [$this, 'admin_head'] );
+		}
+
+		if ($settings['elementor_hide_hello_elementor_page_title']) {
+			add_filter( 'hello_elementor_page_title', '__return_false');
+		}
+
+		if ($settings['elementor_wrap_content']) {
+			add_action( 'elementor/theme/before_do_single', [$this, 'main_open'] );
+			add_action( 'elementor/theme/after_do_single', [$this, 'main_close'] );
+
+			add_action( 'elementor/theme/before_do_archive', [$this, 'main_open'] );
+			add_action( 'elementor/theme/after_do_archive', [$this, 'main_close'] );
+		}
+	}
+
+	function admin_head() {
 		$screen = get_current_screen();
 
-		if ($screen->base === 'post' && $setting) {
+		if ($screen->base === 'post') {
 			?>
 			<style>
 				body.elementor-editor-active #elementor-switch-mode {
@@ -51,5 +70,18 @@ class Settings {
 			</style>
 			<?php
 		}
+	}
+
+
+	function main_open() {
+		?>
+		<main id="content">
+		<?php
+	}
+
+	function main_close() {
+		?>
+		</main>
+		<?php
 	}
 }
