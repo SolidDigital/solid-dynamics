@@ -26,6 +26,6 @@ require_once( __DIR__ . "/classes/jet-engine-macros.php" );
 
 new JetEngineMacros();
 
-require_once( __DIR__ . "/classes/settings.php" );
+require_once( __DIR__ . "/settings/settings.php" );
 
 new Settings();
