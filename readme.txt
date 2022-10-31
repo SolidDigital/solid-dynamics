@@ -18,7 +18,16 @@ This plugin provides several dynamic tags under the "Solid Dynamics" section:
 
 This plugin also provides several settings at Settings > Solid Dynamics:
 
-- Elementor "Back to WordPress Editor" Button - Hide this button to prevent editors from reverting elementor page back to wp editor.
+General:
+
+- Disable 404 permalink guessing.
+
+Elementor:
+
+- Hide the "Back to WordPress Editor" button from on the post page.
+- Hide the page title from the Hello Elementor theme.
+- Wrap content with `main#content`.
+- Make fade in entrance animations more subtle.
 
 == Contributing ==
 
@@ -36,6 +45,9 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.3.0 =
+- Feature: add settings: Disable 404 permalink guessing; Hide the page title from the Hello Elementor theme; Wrap Elementor content with `main#content`; Make Elementor fade in entrance animations more subtle.
 
 = 1.2.0 =
 - Feature: add settings page with option to remove elementor's "back to wp editor" button.
