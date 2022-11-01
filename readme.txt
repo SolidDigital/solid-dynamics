@@ -12,8 +12,8 @@ Helpful utilities for Elementor, Jet Engine, and beyond.
 
 This plugin provides several dynamic tags under the "Solid Dynamics" section:
 
-- `Custom Callback`: Calls the entered function, passing the current post as the first argument.
-- `Menu`: Returns the ids of the post of a specific menu id.
+- `Custom Callback`: Call any php function. The current post is passed as the first argument.
+- `Menu`: Returns comma-separated post ids of a specific menu.
 - `Parent Meta`: Retrieves the meta value of the parent post based on the entered meta key.
 - `List Pluck`: Pluck `field` off each item in `list` (`src` meta or option), and join with `sep`.
 
