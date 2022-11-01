@@ -15,6 +15,7 @@ This plugin provides several dynamic tags under the "Solid Dynamics" section:
 - `Custom Callback`: Calls the entered function, passing the current post as the first argument.
 - `Menu`: Returns the ids of the post of a specific menu id.
 - `Parent Meta`: Retrieves the meta value of the parent post based on the entered meta key.
+- `List Pluck`: Pluck `field` off each item in `list` (`src` meta or option), and join with `sep`.
 
 This plugin also provides several settings at Settings > Solid Dynamics:
 
@@ -24,7 +25,7 @@ General:
 
 Elementor:
 
-- Hide the "Back to WordPress Editor" button from on the post page.
+- Hide the "Back to WordPress Editor" button from on the edit page.
 - Hide the page title from the Hello Elementor theme.
 - Wrap content with `main#content`.
 - Make fade in entrance animations more subtle.
