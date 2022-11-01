@@ -68,7 +68,7 @@ Class ListPluck extends \Elementor\Core\DynamicTags\Tag {
         $sep = $this->get_settings( 'sep' );
 
         if ( empty($source) || empty($list) || empty($field) || empty($sep) ) {
-            error_log('exit');
+            error_log('Solid Dynamics: The List Pluck dynamic tag requires source, list, field, and seperator to be set.');
             return;
         }
 
