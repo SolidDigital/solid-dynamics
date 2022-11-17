@@ -16,6 +16,7 @@ This plugin provides several dynamic tags under the "Solid Dynamics" section:
 - `Menu`: Returns comma-separated post ids of a specific menu.
 - `Parent Meta`: Retrieves the meta value of the parent post based on the entered meta key.
 - `List Pluck`: Pluck `field` off each item in `list` (`src` meta or option), and join with `sep`.
+- `Post Field`: Retrieves custom post field by name.
 
 This plugin also provides several settings at Settings > Solid Dynamics:
 
@@ -46,6 +47,9 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.3.2 =
+- Feature: add `Post Field` dynamic tag.
 
 = 1.3.0 =
 - Feature: add settings: Disable 404 permalink guessing; Hide the page title from the Hello Elementor theme; Wrap Elementor content with `main#content`; Make Elementor fade in entrance animations more subtle.
