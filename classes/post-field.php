@@ -35,12 +35,18 @@ class PostField extends \Elementor\Core\DynamicTags\Tag {
     public function render() {
         global $post;
         $field_name = $this->get_settings( 'fieldname' );
-        $field_value = get_post_meta($post->ID, $field_name, true);
+        $is_standard_field = property_exists($post,$field_name);
 
-        if(empty($field_value)) {
-            echo wp_kses_post('');
+        if($is_standard_field) {
+            echo wp_kses_post($post->$field_name);
         } else {
-            echo wp_kses_post($field_value);
+            $field_value = get_post_meta($post->ID, $field_name, true);
+
+            if(empty($field_value)) {
+                echo '';
+            } else {
+                echo wp_kses_post($field_value);
+            }
         }
     }
 }
