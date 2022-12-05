@@ -36,6 +36,17 @@ Class ListPluck extends \Elementor\Core\DynamicTags\Tag {
 		);
 
         $this->add_control(
+			'option',
+			[
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'label' => __( 'Option (optional)', 'solid-dynamics' ),
+                'condition' => [
+                    'source' => 'option'
+                ]
+			]
+		);
+
+        $this->add_control(
 			'list',
 			[
 				'type' => \Elementor\Controls_Manager::TEXT,
@@ -63,6 +74,7 @@ Class ListPluck extends \Elementor\Core\DynamicTags\Tag {
 
     public function render() {
         $source = $this->get_settings( 'source' );
+        $option = $this->get_settings( 'option' );
         $list = $this->get_settings( 'list' );
         $field = $this->get_settings( 'field' );
         $sep = $this->get_settings( 'sep' );
@@ -79,7 +91,7 @@ Class ListPluck extends \Elementor\Core\DynamicTags\Tag {
                 $the_list = get_post_meta( $post->ID, $list, true );
                 break;
             case "option":
-                $the_list = get_option($list);
+                $the_list = $option ? get_option($option)[$list] : get_option($list);
                 break;
         }
 
