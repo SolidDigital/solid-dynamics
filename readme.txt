@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.0
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 Requires PHP: 7.0
 License: GPLv2
 
@@ -46,6 +46,12 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.3.3 =
+- Add support for term and user meta to list pluck tag.
+
+= 1.3.2 =
+- Add support for wp_options to list pluck tag.
 
 = 1.3.0 =
 - Feature: add settings: Disable 404 permalink guessing; Hide the page title from the Hello Elementor theme; Wrap Elementor content with `main#content`; Make Elementor fade in entrance animations more subtle.
