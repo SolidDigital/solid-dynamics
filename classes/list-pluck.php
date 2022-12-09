@@ -90,6 +90,8 @@ Class ListPluck extends \Elementor\Core\DynamicTags\Tag {
                 // So this will give us the most "local" context when it is called.
                 $object = get_queried_object();
 
+                if (!is_object($object)) break;
+
                 switch (get_class($object)) {
                     case "WP_Post":
                         $the_list = get_post_meta( $object->ID, $list, true );
