@@ -86,9 +86,23 @@ Class ListPluck extends \Elementor\Core\DynamicTags\Tag {
 
         switch ($source) {
             case "meta":
-                global $post;
+                // Jet engine listing grid sets $wp_query->queried_object to the current object as it iterates through posts, terms, or users.
+                // So this will give us the most "local" context when it is called.
+                $object = get_queried_object();
 
-                $the_list = get_post_meta( $post->ID, $list, true );
+                switch (get_class($object)) {
+                    case "WP_Post":
+                        $the_list = get_post_meta( $object->ID, $list, true );
+                        break;
+                    case "WP_Term":
+                        $the_list = get_term_meta( $object->term_id, $list, true );
+                        break;
+                    case "WP_User":
+                        $the_list = get_user_meta( $object->ID, $list, true );
+                        break;
+                    default:
+                        $the_list = [];
+                }
                 break;
             case "option":
                 $the_list = $option ? get_option($option)[$list] : get_option($list);
