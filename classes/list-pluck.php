@@ -107,7 +107,12 @@ Class ListPluck extends \Elementor\Core\DynamicTags\Tag {
                 }
                 break;
             case "option":
-                $the_list = $option ? get_option($option)[$list] : get_option($list);
+                if ($option) {
+                    $the_option = get_option($option);
+                    $the_list = isset($the_option[$list]) ? $the_option[$list] : [];
+                } else {
+                    $the_list = get_option($list);
+                }
                 break;
         }
 
