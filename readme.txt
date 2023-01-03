@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.0
-Stable tag: 1.3.1
+Stable tag: 1.3.4
 Requires PHP: 7.0
 License: GPLv2
 
@@ -48,8 +48,18 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 
 == Changelog ==
 
-= 1.3.2 =
+
+= 1.4.0 =
 - Feature: add `Post Field` dynamic tag.
+
+= 1.3.4 =
+- Fix fatal error on get_class call.
+
+= 1.3.3 =
+- Add support for term and user meta to list pluck tag.
+
+= 1.3.2 =
+- Add support for wp_options to list pluck tag.
 
 = 1.3.0 =
 - Feature: add settings: Disable 404 permalink guessing; Hide the page title from the Hello Elementor theme; Wrap Elementor content with `main#content`; Make Elementor fade in entrance animations more subtle.
