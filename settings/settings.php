@@ -46,22 +46,7 @@ class Settings {
 		}
 
         if ($settings['general_disable_users_api']) {
-
-            add_filter( 'rest_endpoints', 'disable_user_endpoint' );
-            function disable_user_endpoint( $endpoints ) {
-
-                if ( isset( $endpoints['/wp/v2/users'] ) ) {
-                    unset( $endpoints['/wp/v2/users'] );
-                }
-
-                // to remove endpoints like /wp-json/wp/v2/users/4
-                if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
-                    unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
-                }
-
-                return $endpoints;
-            }
-
+            add_filter( 'rest_endpoints', [$this, 'disable_user_endpoint'] );
         }
 
 		if ($settings['elementor_hide_back_to_wp_editor_button']) {
@@ -99,6 +84,19 @@ class Settings {
 		}
 	}
 
+    function disable_user_endpoint( $endpoints ) {
+
+        if ( isset( $endpoints['/wp/v2/users'] ) ) {
+            unset( $endpoints['/wp/v2/users'] );
+        }
+
+        // to remove endpoints like /wp-json/wp/v2/users/4
+        if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
+            unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+        }
+
+        return $endpoints;
+    }
 
 	function main_open() {
 		?>
