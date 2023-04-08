@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.0
-Stable tag: 1.3.4
+Stable tag: 1.5.0
 Requires PHP: 7.0
 License: GPLv2
 
@@ -18,15 +18,16 @@ This plugin provides several dynamic tags under the "Solid Dynamics" section:
 - `List Pluck`: Pluck `field` off each item in `list` (`src` meta or option), and join with `sep`.
 - `Post Field`: Retrieves custom post field by name.
 
-This plugin also provides several settings at Settings > Solid Dynamics:
+This plugin also provides several general use and Elementor specific settings at Settings > Solid Dynamics. All settings have to be opted in to. Activating the plugin does not activate any of the settings. Activating the plugin does automatically make the dynamic tags listed above available.
 
 General:
 
 - Disable 404 permalink guessing.
+- Disable the enumeration of users using the rest API. Disables `/wp-json/wp/v2/users` and `/wp-json/wp/v2/users/:ID`
 
 Elementor:
 
-- Hide the "Back to WordPress Editor" button from on the edit page.
+- Hide the "Back to WordPress Editor" button from the edit page.
 - Hide the page title from the Hello Elementor theme.
 - Wrap content with `main#content`.
 - Make fade in entrance animations more subtle.
@@ -48,6 +49,8 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 
 == Changelog ==
 
+= 1.5.0 =
+- Feature: add `Disable Users REST API`
 
 = 1.4.0 =
 - Feature: add `Post Field` dynamic tag.

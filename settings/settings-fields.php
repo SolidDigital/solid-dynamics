@@ -16,6 +16,13 @@ function wpsf_register_settings( $wpsf_settings ) {
 				'type'    => 'checkbox',
 				'default' => 0,
 			),
+			array(
+			    'id'      => 'disable_users_api',
+			    'title'   => 'Disable Users API',
+			    'desc'    => 'Disable the Users REST API: /wp-json/wp/v2/users',
+			    'type'    => 'checkbox',
+			    'default' => 0,
+			),
 		),
 	);
 

@@ -45,6 +45,25 @@ class Settings {
 			add_filter('do_redirect_guess_404_permalink', '__return_false');
 		}
 
+        if ($settings['disable_users_api']) {
+
+            add_filter( 'rest_endpoints', 'disable_user_endpoint' );
+            function disable_user_endpoint( $endpoints ) {
+
+                if ( isset( $endpoints['/wp/v2/users'] ) ) {
+                    unset( $endpoints['/wp/v2/users'] );
+                }
+
+                // to remove endpoints like /wp-json/wp/v2/users/4
+                if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
+                    unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+                }
+
+                return $endpoints;
+            }
+
+        }
+
 		if ($settings['elementor_hide_back_to_wp_editor_button']) {
 			add_action( 'admin_head', [$this, 'elementor_hide_back_to_wp_editor_button'] );
 		}
