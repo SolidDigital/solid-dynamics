@@ -45,7 +45,7 @@ class Settings {
 			add_filter('do_redirect_guess_404_permalink', '__return_false');
 		}
 
-        if ($settings['disable_users_api']) {
+        if ($settings['general_disable_users_api']) {
 
             add_filter( 'rest_endpoints', 'disable_user_endpoint' );
             function disable_user_endpoint( $endpoints ) {
