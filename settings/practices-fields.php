@@ -37,9 +37,11 @@ EOT;
 function solid_practices_run() {
     $practices_option_key = 'solid_practices_settings';
     $options = get_option( $practices_option_key );
+
     $options = test_caching($options);
     $options = test_minification($options);
     $options = test_performance_plugin_activation($options);
+
     update_option($practices_option_key, $options);
     wp_redirect(home_url() . '/wp-admin/admin.php?page=solid-practices-settings');
     exit;
@@ -53,6 +55,7 @@ function test_caching($options) {
     } else {
         $options[$key] = "0";
     }
+    return $options;
 }
 
 function test_minification($options) {
