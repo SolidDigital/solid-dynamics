@@ -19,6 +19,13 @@ function wpsf_register_practices( $wpsf_settings ) {
                 'type'    => 'checkbox',
                 'default' => 0
             ),
+            array(
+                'id'      => 'analysis_logs',
+                'title'   => 'Analysis Logs',
+                'desc'    => 'Logs from the last run analysis',
+                'type'    => 'textarea',
+                'default' => ''
+            )
         ),
     );
     return $wpsf_settings;
@@ -48,7 +55,18 @@ function solid_practices_run() {
 }
 
 function test_caching($options) {
+    error_log('Starting caching test');
+    $url = site_url();
+    error_log("Testing URL: $url");
+
+    $headers = get_headers($url);
+    foreach ($headers as $key=>$value) {
+
+    }
+
     $key = 'best_practices_caching_enabled';
+    $log_key = 'best_practices_analysis_logs';
+    $options[$log_key] .= "Logs!\n";
     // Options are an array. Key are section id _ field id
     if (!$options[$key]) {
         $options[$key] = "1";
