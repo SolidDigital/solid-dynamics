@@ -3,12 +3,14 @@ namespace Solid;
 
 class Settings {
 	private $wpsf;
+	private $wpsf2;
 
 	public function __construct() {
 
 		// Include and create a new WordPressSettingsFramework.
 		require_once __DIR__ . '/../wp-settings-framework/wp-settings-framework.php';
 		$this->wpsf = new \WordPressSettingsFramework( __DIR__ . '/settings-fields.php', 'solid_dynamics' );
+		$this->wpsf2 = new \WordPressSettingsFramework( __DIR__ . '/practices-fields.php', 'solid_practices' );
 
 		// Add admin menu.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
@@ -29,6 +31,14 @@ class Settings {
 				'capability'  => 'manage_options',
 			)
 		);
+        $this->wpsf2->add_settings_page(
+            array(
+                'parent_slug' => 'options-general.php',
+                'page_title'  => esc_html__( 'Solid Practices', 'solid-practices' ),
+                'menu_title'  => esc_html__( 'Solid Practices', 'solid-practices' ),
+                'capability'  => 'manage_options',
+            )
+        );
 	}
 
 	public function validate_settings( $input ) {
