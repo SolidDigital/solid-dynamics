@@ -5,6 +5,9 @@ add_filter( 'wpsf_register_settings_solid_practices', 'Solid\wpsf_register_pract
 add_action( 'wpsf_before_settings_solid_practices', 'Solid\wpsf_analyze_button');
 add_action( 'admin_action_solid_practices_run', 'Solid\solid_practices_run');
 
+    include_once __DIR__ . '/vendor/autoload.php';
+    use Google\Service\PagespeedInsights;
+
 
 function wpsf_register_practices( $wpsf_settings ) {
     $wpsf_settings[] = array(
@@ -117,9 +120,33 @@ function test_caching($options) {
 }
 
 function test_minification($options) {
+    $api_key = 'xxx';
+
+
+    try {
+        $client = new Google\Client();
+        $client->setApplicationName('Google Page Speed API PHP Example');
+        $client->setDeveloperKey(API_KEY);
+
+        $service = new PagespeedInsights($client);
+        $url = 'https://sddemo.wpengine.com/';
+        $result = $service->pagespeedapi->runpagespeed($url, array('strategy' => 'mobile'));
+        error_log(print_r($result,true));
+        // $mobile = 100 * $result->getLighthouseResult()->getCategories()['performance']->getScore();
+
+        // $result = $service->pagespeedapi->runpagespeed($url, array('strategy' => 'desktop'));
+        // $desktop = 100 * $result->getLighthouseResult()->getCategories()['performance']->getScore();
+
+        // echo "$url => Mobile: $mobile - Desktop: $desktop\n";
+    } catch (Exception $e) {
+        echo "Error for $url - moving on\n";
+    }
+
     return $options;
 }
 
 function test_performance_plugin_activation($options) {
     return $options;
 }
+
+
