@@ -4,6 +4,7 @@ namespace Solid;
 add_filter( 'wpsf_register_settings_solid_practices', 'Solid\wpsf_register_practices' );
 add_action( 'wpsf_before_settings_solid_practices', 'Solid\wpsf_analyze_button');
 add_action( 'admin_action_solid_practices_run', 'Solid\solid_practices_run');
+add_action( 'admin_action_solid_practices_clear', 'Solid\solid_practices_clear');
 
 
 function wpsf_register_practices( $wpsf_settings ) {
@@ -16,6 +17,13 @@ function wpsf_register_practices( $wpsf_settings ) {
                 'id'      => 'caching_enabled',
                 'title'   => 'Caching',
                 'desc'    => 'Is caching enabled?',
+                'type'    => 'checkbox',
+                'default' => 0
+            ),
+            array(
+                'id'      => 'performance_plugin_activated',
+                'title'   => 'Performance',
+                'desc'    => 'Is a performance plugin activated?',
                 'type'    => 'checkbox',
                 'default' => 0
             ),
@@ -38,7 +46,27 @@ function wpsf_analyze_button() {
     <input type="hidden" name="action" value="solid_practices_run" />
     <p><input type="submit" class="button button-primary" value="Run Automated Analysis" /></p>
 </form>
+<form method="POST" action="$admin_url">
+    <input type="hidden" name="action" value="solid_practices_clear" />
+    <p><input type="submit" class="button button-primary" value="Clear Results" /></p>
+</form>
 EOT;
+}
+
+function solid_practices_clear() {
+    $practices_option_key = 'solid_practices_settings';
+    $options = get_option( $practices_option_key );
+    $cache_key = 'best_practices_caching_enabled';
+    $perf_key = 'best_practices_performance_plugin_activated';
+    $log_key = 'best_practices_analysis_logs';
+
+    $options[$cache_key] = "0";
+    $options[$perf_key] = "0";
+    $options[$log_key] = "";
+
+    update_option($practices_option_key, $options);
+    wp_redirect(home_url() . '/wp-admin/admin.php?page=solid-practices-settings');
+    exit;
 }
 
 function solid_practices_run() {
@@ -134,5 +162,31 @@ function test_minification($options) {
 }
 
 function test_performance_plugin_activation($options) {
+    $test_key = 'best_practices_performance_plugin_activated';
+    $log_key = 'best_practices_analysis_logs';
+
+    $active_plugins = get_option('active_plugins');
+
+    // Many caching plugins have minification and other performance functionality included - those are added below
+    $performance_plugins = array(
+        'hummingbird-performance',
+        'nitropack',
+        'perfmatters',
+        'performance-lab',
+        'sg-cachepress',
+        'tenweb-speed-optimizer',
+        'w3-total-cache',
+        'wp-fastest-cache',
+        'wp-optimize',
+        'wp-rocket',
+        'wp-super-minify'
+    );
+    foreach ($active_plugins as $plugin) {
+        $plugin = explode('/', $plugin)[0];
+        if (in_array($plugin, $performance_plugins)) {
+            $options[$test_key] = "1";
+            $options[$log_key] .= "\nPerformance plugin found: $plugin";
+        }
+    }
     return $options;
 }
