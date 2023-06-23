@@ -56,23 +56,63 @@ function solid_practices_run() {
 
 function test_caching($options) {
     error_log('Starting caching test');
+    $test_key = 'best_practices_caching_enabled';
+    $log_key = 'best_practices_analysis_logs';
+
+    // zero out test results to begin
+    $options[$test_key] = "0";
+
+    // We're not testing SSL, we're testing caching
+    stream_context_set_default( [
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ],
+    ]);
     $url = site_url();
     error_log("Testing URL: $url");
-
     $headers = get_headers($url);
     foreach ($headers as $key=>$value) {
-
+        if ( stripos($value, "Cache") !== false ) {
+            error_log("Cache detected $key - $value");
+            $options[$log_key] .= "\nCache detected $key - $value";
+            $options[$test_key] = "1";
+        } elseif ( stripos($value, "cloudflare") !== false ) {
+            error_log("Cache detected $key - $value");
+            $options[$log_key] .= "\nCache detected $key - $value";
+            $options[$test_key] = "1";
+        } elseif ( stripos($value, "X-Forwarded-Proto:") !== false ) {
+            error_log("Cache detected $key - $value");
+            $options[$log_key] .= "\nCache detected $key - $value";
+            $options[$test_key] = "1";
+        } elseif ( stripos($value, "BigIp") !== false ) {
+            error_log("Cache detected $key - $value");
+            $options[$log_key] .= "\nCache detected $key - $value";
+            $options[$test_key] = "1";
+        } elseif ( stripos($value, "proxy") !== false ) {
+            error_log("Proxy detected $key - $value");
+            $options[$log_key] .= "\nProxy detected $key - $value";
+            $options[$log_key] .= "\nA Proxy may not mean cache is active, but a proxy can yield unexpected results that mimic caching symptoms.";
+            $options[$test_key] = "1";
+        } elseif (stripos($value, "varnish") !== false ) {
+            error_log("Cache detected $key - $value");
+            $options[$log_key] .= "\nCache detected $key - $value";
+            $options[$test_key] = "1";
+        } elseif (stripos($value, "Vary: X-Forwarded-Proto") !== false ) {
+            error_log("Cache detected $key - $value");
+            $options[$log_key] .= "\nCache detected $key - $value";
+            $options[$test_key] = "1";
+        } elseif (stripos($value, "P-LB") !== false ) {
+            error_log("Cache detected $key - $value");
+            $options[$log_key] .= "\nCache detected $key - $value";
+            $options[$test_key] = "1";
+        } elseif ( stripos($value, "Cache-Control") !== false ) {
+            error_log("Cache detected $key - $value");
+            $options[$log_key] .= "\nCache detected $key - $value";
+            $options[$test_key] = "1";
+        }
     }
 
-    $key = 'best_practices_caching_enabled';
-    $log_key = 'best_practices_analysis_logs';
-    $options[$log_key] .= "Logs!\n";
-    // Options are an array. Key are section id _ field id
-    if (!$options[$key]) {
-        $options[$key] = "1";
-    } else {
-        $options[$key] = "0";
-    }
     return $options;
 }
 
