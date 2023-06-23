@@ -55,6 +55,7 @@ function solid_practices_run() {
 }
 
 function test_caching($options) {
+    // The code for this test courtesy of https://wordpress.org/plugins/detect-cache/
     error_log('Starting caching test');
     $test_key = 'best_practices_caching_enabled';
     $log_key = 'best_practices_analysis_logs';
@@ -78,8 +79,8 @@ function test_caching($options) {
             $options[$log_key] .= "\nCache detected $key - $value";
             $options[$test_key] = "1";
         } elseif ( stripos($value, "cloudflare") !== false ) {
-            error_log("Cache detected $key - $value");
-            $options[$log_key] .= "\nCache detected $key - $value";
+            error_log("Cache potentially detected $key - $value");
+            $options[$log_key] .= "\nCache potentially detected $key - $value";
             $options[$test_key] = "1";
         } elseif ( stripos($value, "X-Forwarded-Proto:") !== false ) {
             error_log("Cache detected $key - $value");
@@ -109,6 +110,18 @@ function test_caching($options) {
         } elseif ( stripos($value, "Cache-Control") !== false ) {
             error_log("Cache detected $key - $value");
             $options[$log_key] .= "\nCache detected $key - $value";
+            $options[$test_key] = "1";
+        }
+    }
+
+    $path = get_home_path();
+    $targetdir = "wp-content";
+    $dir = "$path$targetdir";
+    $potential_cache_files = scandir($dir);
+    foreach ($potential_cache_files as $the_dir) {
+        if (stripos($the_dir, 'cache') !== false) {
+            error_log("Cache detected in $the_dir");
+            $options[$log_key] .= "\nCache detected in $the_dir";
             $options[$test_key] = "1";
         }
     }
