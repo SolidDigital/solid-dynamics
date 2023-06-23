@@ -2,7 +2,7 @@
 namespace Solid;
 
 // Example of how to create a custom WPSF type
-class Solid_WPSF extends \WordPressSettingsFramework {
+class SolidWPSF extends \WordPressSettingsFramework {
     public function generate_readonly_field($args) {
         $args['value'] = esc_html( esc_attr( $args['value'] ) );
 

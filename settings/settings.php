@@ -12,7 +12,7 @@ class Settings {
 
 		// Include and create a new WordPressSettingsFramework.
 		$this->wpsf = new \WordPressSettingsFramework( __DIR__ . '/settings-fields.php', 'solid_dynamics' );
-		$this->wpsf2 = new Solid_WPSF( __DIR__ . '/practices-fields.php', 'solid_practices' );
+		$this->wpsf2 = new SolidWPSF( __DIR__ . '/practices-fields.php', 'solid_practices' );
 
 		// Add admin menu.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
