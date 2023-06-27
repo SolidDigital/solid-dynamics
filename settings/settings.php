@@ -1,6 +1,9 @@
 <?php
 namespace Solid;
 
+require_once __DIR__ . '/../wp-settings-framework/wp-settings-framework.php';
+require_once __DIR__ . '/solid-wpsf.php';
+
 class Settings {
 	private $wpsf;
 	private $wpsf2;
@@ -8,9 +11,8 @@ class Settings {
 	public function __construct() {
 
 		// Include and create a new WordPressSettingsFramework.
-		require_once __DIR__ . '/../wp-settings-framework/wp-settings-framework.php';
 		$this->wpsf = new \WordPressSettingsFramework( __DIR__ . '/settings-fields.php', 'solid_dynamics' );
-		$this->wpsf2 = new \WordPressSettingsFramework( __DIR__ . '/practices-fields.php', 'solid_practices' );
+		$this->wpsf2 = new SolidWPSF( __DIR__ . '/practices-fields.php', 'solid_practices' );
 
 		// Add admin menu.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
