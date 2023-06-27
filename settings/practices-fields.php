@@ -5,10 +5,6 @@ add_filter( 'wpsf_register_settings_solid_practices', 'Solid\wpsf_register_pract
 add_action( 'wpsf_before_settings_solid_practices', 'Solid\wpsf_analyze_button');
 add_action( 'admin_action_solid_practices_run', 'Solid\solid_practices_run');
 
-    include_once __DIR__ . '/vendor/autoload.php';
-    use Google\Service\PagespeedInsights;
-
-
 function wpsf_register_practices( $wpsf_settings ) {
     $wpsf_settings[] = array(
         'section_id'            => 'best_practices',
@@ -120,26 +116,36 @@ function test_caching($options) {
 }
 
 function test_minification($options) {
-    $api_key = 'xxx';
+    $url = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://disturbedone.forumotion.com/';
+
+    error_log('Starting css minification test');
+    $test_key = 'best_practices_css_minified';
+    $log_key = 'best_practices_analysis_logs';
+
+    // zero out test results to begin
+    $options[$test_key] = "0";
 
 
     try {
-        $client = new Google\Client();
-        $client->setApplicationName('Google Page Speed API PHP Example');
-        $client->setDeveloperKey(API_KEY);
+        $response = wp_remote_post( $url, [
+            'method'      => 'GET',
+            'timeout'     => 300,
+            'httpversion' => '1.0',
+            ],
+        );
+        $results = json_decode($response['body'],true);
+        error_log(print_r($results['lighthouseResult']['audits']['unminified-css']['details']['items'],true));
 
-        $service = new PagespeedInsights($client);
-        $url = 'https://sddemo.wpengine.com/';
-        $result = $service->pagespeedapi->runpagespeed($url, array('strategy' => 'mobile'));
-        error_log(print_r($result,true));
-        // $mobile = 100 * $result->getLighthouseResult()->getCategories()['performance']->getScore();
-
-        // $result = $service->pagespeedapi->runpagespeed($url, array('strategy' => 'desktop'));
-        // $desktop = 100 * $result->getLighthouseResult()->getCategories()['performance']->getScore();
-
-        // echo "$url => Mobile: $mobile - Desktop: $desktop\n";
     } catch (Exception $e) {
         echo "Error for $url - moving on\n";
+        return $options;
+    }
+
+    if (count($results['lighthouseResult']['audits']['unminified-css']['details']['items']) > 0) {
+        $options[$test_key] = "1"; 
+    } else {
+        $options[$test_key] = "0"; 
+
     }
 
     return $options;
