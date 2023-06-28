@@ -18,6 +18,7 @@ class PracticesFields {
     private $key_test_revisions_count = 'best_practices_revisions_count';
     private $key_test_draft_count = 'best_practices_draft_count';
     private $key_test_trash_count = 'best_practices_trash_count';
+    private $key_test_comment_count = 'best_practices_comment_count';
 
     private $key_logs = 'best_practices_analysis_logs';
 
@@ -105,6 +106,13 @@ class PracticesFields {
                     'default' => 0
                 ),
                 array(
+                    'id'      => 'comment_count',
+                    'title'   => 'Comments',
+                    'desc'    => 'Is the total number of spam/trashed comments below 100?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
                     'id'      => 'analysis_logs',
                     'title'   => 'Analysis Logs',
                     'desc'    => 'Logs from the last run analysis',
@@ -142,6 +150,7 @@ EOT;
         $options[$this->key_test_revisions_count] = $this->no;
         $options[$this->key_test_draft_count] = $this->no;
         $options[$this->key_test_trash_count] = $this->no;
+        $options[$this->key_test_comment_count] = $this->no;
 
         $options[$this->key_logs] = "";
 
@@ -162,6 +171,7 @@ EOT;
         $options = $this->test_revision_count($options);
         $options = $this->test_draft_count($options);
         $options = $this->test_trash_count($options);
+        $options = $this->test_comment_count($options);
 
         $this->finalize($options);
     }
@@ -408,6 +418,21 @@ EOT;
 
         if (count($posts) < 100) {
             $options[$this->key_test_trash_count] = $this->yes;
+        }
+
+        return $options;
+    }
+
+    public function test_comment_count($options) {
+        $comments = get_comments([
+            'count' => true,
+            'status' => ['trash', 'spam']
+        ]);
+
+        $options[$this->key_logs] .= "\n" . $comments . ' spam/trashed comments.';
+
+        if ($comments < 100) {
+            $options[$this->key_test_comment_count] = $this->yes;
         }
 
         return $options;
