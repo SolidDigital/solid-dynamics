@@ -11,6 +11,7 @@ class PracticesFields {
     private $key_test_cache = 'best_practices_caching_enabled';
     private $key_test_performance = 'best_practices_performance_plugin_activated';
     private $key_test_js_delay = 'best_practices_js_delayed';
+    private $key_test_js_defer = 'best_practices_js_deferred';
     private $key_logs = 'best_practices_analysis_logs';
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
@@ -36,6 +37,13 @@ class PracticesFields {
                     'id'      => 'performance_plugin_activated',
                     'title'   => 'Performance',
                     'desc'    => 'Is a performance plugin activated?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'js_deferred',
+                    'title'   => 'JS Defer',
+                    'desc'    => 'Is JS deferred on most pages for most scripts?',
                     'type'    => 'checkbox',
                     'default' => 0
                 ),
@@ -88,6 +96,7 @@ EOT;
         $options = $this->test_caching($options);
         $options = $this->test_minification($options);
         $options = $this->test_performance_plugin_activation($options);
+        $options = $this->test_js_defer($options);
         $options = $this->test_js_delay($options);
 
         $this->finalize($options);
@@ -209,6 +218,22 @@ EOT;
         return $options;
     }
 
+    public function test_js_defer($options) {
+        $perf_options = get_option("perfmatters_options");
+
+        if ($perf_options) {
+            $js_deferred = $perf_options['assets']['defer_js'] === "1";
+
+            if ($js_deferred) {
+                $options[$this->key_logs] .= "\nJS deferred in perfmatters.";
+
+                $options[$this->key_test_js_defer] = $this->yes;
+            }
+        }
+
+        return $options;
+    }
+
     public function test_js_delay($options) {
         $perf_options = get_option("perfmatters_options");
 
@@ -221,7 +246,6 @@ EOT;
                 $options[$this->key_test_js_delay] = $this->yes;
             }
         }
-
 
         return $options;
     }
