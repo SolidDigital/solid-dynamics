@@ -11,6 +11,9 @@ class PracticesFields {
     private $key_test_cache = 'best_practices_caching_enabled';
     private $key_test_performance = 'best_practices_performance_plugin_activated';
     private $key_logs = 'best_practices_analysis_logs';
+    public $pagespeed_data = [];
+    private $test_subject_url = 'https://disturbedone.forumotion.com';
+
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
         add_action( 'wpsf_before_settings_solid_practices', array($this, 'wpsf_analyze_button') );
@@ -35,6 +38,27 @@ class PracticesFields {
                     'id'      => 'performance_plugin_activated',
                     'title'   => 'Performance',
                     'desc'    => 'Is a performance plugin activated?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'assets_minified',
+                    'title'   => 'Assets',
+                    'desc'    => 'Are frontend assets minfied?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'image_formats_modern',
+                    'title'   => 'Images',
+                    'desc'    => 'Are images served in modern formats (avif/webp)?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'image_sizes_reasonable',
+                    'title'   => 'Images',
+                    'desc'    => 'Are image sizes optimized?',
                     'type'    => 'checkbox',
                     'default' => 0
                 ),
@@ -78,6 +102,9 @@ EOT;
 
         $options = $this->test_caching($options);
         $options = $this->test_minification($options);
+        $options = $this->test_image_formats($options);
+        $options = $this->test_image_sizes($options);
+
         $options = $this->test_performance_plugin_activation($options);
 
         $this->finalize($options);
@@ -168,37 +195,92 @@ EOT;
         }
     }
 
-    function test_minification($options) {
-        $url = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://disturbedone.forumotion.com/';
+    public function get_pagespeed_test() {
+        $test_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$this->test_subject_url/";
+        if(!empty($this->pagespeed_data)) {
+            error_log('    we have pagespeed data, no api calls needed.');
+            return $this->pagespeed_data;
+        }
 
-        error_log('Starting css minification test');
-        $test_key = 'best_practices_css_minified';
-        $log_key = 'best_practices_analysis_logs';
-
-        // zero out test results to begin
-        $options[$test_key] = "0";
-
-
+        error_log('    pagespeed data hasnt been gathered. calling it in, now.');
         try {
-            $response = wp_remote_post( $url, [
+            $response = wp_remote_post( $test_url, [
                 'method'      => 'GET',
                 'timeout'     => 300,
                 'httpversion' => '1.0',
                 ],
             );
-            $results = json_decode($response['body'],true);
-            error_log(print_r($results['lighthouseResult']['audits']['unminified-css']['details']['items'],true));
+
+            $this->pagespeed_data = json_decode($response['body'],true);
+            return $this->pagespeed_data;
 
         } catch (Exception $e) {
-            echo "Error for $url - moving on\n";
-            return $options;
+            echo "Error for $test_url - moving on\n";
+            return false;
         }
 
-        if (count($results['lighthouseResult']['audits']['unminified-css']['details']['items']) > 0) {
-            $options[$test_key] = "1"; 
-        } else {
-            $options[$test_key] = "0"; 
+    }
 
+    public function test_minification($options) {
+
+        error_log('Starting asset minification test');
+        $test_key = 'best_practices_assets_minified';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $minification_data = $this->get_pagespeed_test();
+
+        error_log(print_r($minification_data['lighthouseResult']['audits']['unminified-css']['details']['items'],true));
+        error_log(print_r($minification_data['lighthouseResult']['audits']['unminified-javascript']['details']['items'],true));
+
+        $css_unminified = !!count($minification_data['lighthouseResult']['audits']['unminified-css']['details']['items']);
+        $js_unminified = !!count($minification_data['lighthouseResult']['audits']['unminified-javascript']['details']['items']);
+
+        if ($css_unminified or $js_unminified) {
+            $options[$test_key] = "0"; 
+        } else {
+            $options[$test_key] = "1"; 
+        }
+        return $options;
+    }
+    public function test_image_formats($options) {
+        error_log('Starting image format test');
+        $test_key = 'best_practices_image_formats_modern';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $minification_data = $this->get_pagespeed_test();
+
+        error_log(print_r($minification_data['lighthouseResult']['audits']['modern-image-formats']['details']['items'],true));
+        $old_image_formats = !!count($minification_data['lighthouseResult']['audits']['modern-image-formats']['details']['items']);
+        
+        if ($old_image_formats) {
+            $options[$test_key] = "0"; 
+        } else {
+            $options[$test_key] = "1"; 
+        }
+
+        return $options;
+    }
+
+    public function test_image_sizes($options) {
+        error_log('Starting image sizes test');
+        $test_key = 'best_practices_image_sizes_reasonable';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $minification_data = $this->get_pagespeed_test();
+
+        error_log(print_r($minification_data['lighthouseResult']['audits']['uses-optimized-images']['details']['items'],true));
+        $old_image_formats = !!count($minification_data['lighthouseResult']['audits']['uses-optimized-images']['details']['items']);
+        
+        if ($old_image_formats) {
+            $options[$test_key] = "0"; 
+        } else {
+            $options[$test_key] = "1"; 
         }
 
         return $options;
