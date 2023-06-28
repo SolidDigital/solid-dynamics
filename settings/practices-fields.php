@@ -16,6 +16,8 @@ class PracticesFields {
     private $key_test_lazy_bg = 'best_practices_lazy_bg';
     private $key_test_lazy_iframe = 'best_practices_lazy_iframe';
     private $key_test_revisions_count = 'best_practices_revisions_count';
+    private $key_test_draft_count = 'best_practices_draft_count';
+    private $key_test_trash_count = 'best_practices_trash_count';
 
     private $key_logs = 'best_practices_analysis_logs';
 
@@ -89,6 +91,20 @@ class PracticesFields {
                     'default' => 0
                 ),
                 array(
+                    'id'      => 'draft_count',
+                    'title'   => 'Drafts',
+                    'desc'    => 'Is the total number of drafts in the DB below 100?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'trash_count',
+                    'title'   => 'Trashed',
+                    'desc'    => 'Is the total number of trashed posts in the DB below 100?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
                     'id'      => 'analysis_logs',
                     'title'   => 'Analysis Logs',
                     'desc'    => 'Logs from the last run analysis',
@@ -124,6 +140,9 @@ EOT;
         $options[$this->key_test_lazy_bg] = $this->no;
         $options[$this->key_test_lazy_iframe] = $this->no;
         $options[$this->key_test_revisions_count] = $this->no;
+        $options[$this->key_test_draft_count] = $this->no;
+        $options[$this->key_test_trash_count] = $this->no;
+
         $options[$this->key_logs] = "";
 
         $this->finalize($options);
@@ -141,6 +160,8 @@ EOT;
         $options = $this->test_lazy_bg($options);
         $options = $this->test_lazy_iframe($options);
         $options = $this->test_revision_count($options);
+        $options = $this->test_draft_count($options);
+        $options = $this->test_trash_count($options);
 
         $this->finalize($options);
     }
@@ -265,7 +286,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $js_deferred = $perf_options['assets']['defer_js'] === "1";
+            $js_deferred = array_dot_get($perf_options, 'assets.defer_js') === "1";
 
             if ($js_deferred) {
                 $options[$this->key_logs] .= "\nJS deferred in perfmatters.";
@@ -281,7 +302,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $js_delayed = $perf_options['assets']['delay_js'] === "1" && $perf_options['assets']['delay_js_behavior'] === 'all';
+            $js_delayed = array_dot_get($perf_options, 'assets.delay_js') === "1" && array_dot_get($perf_options, 'assets.delay_js_behavior') === 'all';
 
             if ($js_delayed) {
                 $options[$this->key_logs] .= "\nJS delayed in perfmatters.";
@@ -297,7 +318,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $lazy_image = $perf_options['lazyload']['lazy_loading'] === "1";
+            $lazy_image = array_dot_get($perf_options, 'lazyload.lazy_loading') === "1";
 
             if ($lazy_image) {
                 $options[$this->key_logs] .= "\nLazy images in perfmatters.";
@@ -313,7 +334,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $lazy_bg = $perf_options['lazyload']['css_background_images'] === "1";
+            $lazy_bg = array_dot_get($perf_options, 'lazyload.css_background_images') === "1";
 
             if ($lazy_bg) {
                 $options[$this->key_logs] .= "\nLazy background images in perfmatters.";
@@ -329,7 +350,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $lazy_iframe = $perf_options['lazyload']['lazy_loading_iframes'] === "1";
+            $lazy_iframe = array_dot_get($perf_options, 'lazyload.lazy_loading_iframes') === "1";
 
             if ($lazy_iframe) {
                 $options[$this->key_logs] .= "\nLazy iframes in perfmatters.";
@@ -357,6 +378,57 @@ EOT;
 
         return $options;
     }
+
+    public function test_draft_count($options) {
+        $posts = get_posts([
+            'post_type' => 'any',
+            'post_status' => 'draft',
+            'numberposts' => -1,
+            'fields' => 'ids'
+        ]);
+
+        $options[$this->key_logs] .= "\n" . count($posts) . ' draft posts.';
+
+        if (count($posts) < 100) {
+            $options[$this->key_test_draft_count] = $this->yes;
+        }
+
+        return $options;
+    }
+
+    public function test_trash_count($options) {
+        $posts = get_posts([
+            'post_type' => 'any',
+            'post_status' => 'trash',
+            'numberposts' => -1,
+            'fields' => 'ids'
+        ]);
+
+        $options[$this->key_logs] .= "\n" . count($posts) . ' trashed posts.';
+
+        if (count($posts) < 100) {
+            $options[$this->key_test_trash_count] = $this->yes;
+        }
+
+        return $options;
+    }
 }
 
 new PracticesFields();
+
+// Helpers
+function array_dot_get($array, $path, $default = null) {
+	$value = $array;
+	$parts = explode('.', $path);
+
+	foreach($parts as $part) {
+		if (isset($value[$part])) {
+			$value = $value[$part];
+		} else {
+			$value = $default;
+			break;
+		}
+	}
+
+	return $value;
+}
