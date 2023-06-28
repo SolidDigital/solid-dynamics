@@ -12,6 +12,9 @@ class PracticesFields {
     private $key_test_performance = 'best_practices_performance_plugin_activated';
     private $key_test_js_delay = 'best_practices_js_delayed';
     private $key_test_js_defer = 'best_practices_js_deferred';
+    private $key_test_lazy_image = 'best_practices_lazy_image';
+    private $key_test_lazy_iframe = 'best_practices_lazy_iframe';
+
     private $key_logs = 'best_practices_analysis_logs';
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
@@ -55,6 +58,20 @@ class PracticesFields {
                     'default' => 0
                 ),
                 array(
+                    'id'      => 'lazy_image',
+                    'title'   => 'Lazy Load Images',
+                    'desc'    => 'Is lazy loading enabled for below-the-fold images?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'lazy_iframe',
+                    'title'   => 'Lazy Load Iframes/Videos',
+                    'desc'    => 'Is lazy loading enabled for iframes/videos?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
                     'id'      => 'analysis_logs',
                     'title'   => 'Analysis Logs',
                     'desc'    => 'Logs from the last run analysis',
@@ -85,6 +102,9 @@ EOT;
         $options[$this->key_test_cache] = $this->no;
         $options[$this->key_test_performance] = $this->no;
         $options[$this->key_test_js_delay] = $this->no;
+        $options[$this->key_test_js_defer] = $this->no;
+        $options[$this->key_test_lazy_image] = $this->no;
+        $options[$this->key_test_lazy_iframe] = $this->no;
         $options[$this->key_logs] = "";
 
         $this->finalize($options);
@@ -98,6 +118,8 @@ EOT;
         $options = $this->test_performance_plugin_activation($options);
         $options = $this->test_js_defer($options);
         $options = $this->test_js_delay($options);
+        $options = $this->test_lazy_image($options);
+        $options = $this->test_lazy_iframe($options);
 
         $this->finalize($options);
     }
@@ -244,6 +266,38 @@ EOT;
                 $options[$this->key_logs] .= "\nJS delayed in perfmatters.";
 
                 $options[$this->key_test_js_delay] = $this->yes;
+            }
+        }
+
+        return $options;
+    }
+
+    public function test_lazy_image($options) {
+        $perf_options = get_option("perfmatters_options");
+
+        if ($perf_options) {
+            $js_delayed = $perf_options['lazyload']['lazy_loading'] === "1";
+
+            if ($js_delayed) {
+                $options[$this->key_logs] .= "\nLazy images in perfmatters.";
+
+                $options[$this->key_test_lazy_image] = $this->yes;
+            }
+        }
+
+        return $options;
+    }
+
+    public function test_lazy_iframe($options) {
+        $perf_options = get_option("perfmatters_options");
+
+        if ($perf_options) {
+            $lazy_iframe = $perf_options['lazyload']['lazy_loading_iframes'] === "1";
+
+            if ($lazy_iframe) {
+                $options[$this->key_logs] .= "\nLazy iframes in perfmatters.";
+
+                $options[$this->key_test_lazy_iframe] = $this->yes;
             }
         }
 
