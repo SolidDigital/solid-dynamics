@@ -14,8 +14,9 @@ class PracticesFields {
     private $key_test_js_defer = 'best_practices_js_deferred';
     private $key_test_lazy_image = 'best_practices_lazy_image';
     private $key_test_lazy_iframe = 'best_practices_lazy_iframe';
-
+    private $key_test_lazy_bg = 'best_practices_lazy_bg';
     private $key_logs = 'best_practices_analysis_logs';
+
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
         add_action( 'wpsf_before_settings_solid_practices', array($this, 'wpsf_analyze_button') );
@@ -65,6 +66,13 @@ class PracticesFields {
                     'default' => 0
                 ),
                 array(
+                    'id'      => 'lazy_bg',
+                    'title'   => 'Lazy Load Background Images',
+                    'desc'    => 'Is lazy loading enabled for background images?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
                     'id'      => 'lazy_iframe',
                     'title'   => 'Lazy Load Iframes/Videos',
                     'desc'    => 'Is lazy loading enabled for iframes/videos?',
@@ -104,6 +112,7 @@ EOT;
         $options[$this->key_test_js_delay] = $this->no;
         $options[$this->key_test_js_defer] = $this->no;
         $options[$this->key_test_lazy_image] = $this->no;
+        $options[$this->key_test_lazy_bg] = $this->no;
         $options[$this->key_test_lazy_iframe] = $this->no;
         $options[$this->key_logs] = "";
 
@@ -119,6 +128,7 @@ EOT;
         $options = $this->test_js_defer($options);
         $options = $this->test_js_delay($options);
         $options = $this->test_lazy_image($options);
+        $options = $this->test_lazy_bg($options);
         $options = $this->test_lazy_iframe($options);
 
         $this->finalize($options);
@@ -276,12 +286,28 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $js_delayed = $perf_options['lazyload']['lazy_loading'] === "1";
+            $lazy_image = $perf_options['lazyload']['lazy_loading'] === "1";
 
-            if ($js_delayed) {
+            if ($lazy_image) {
                 $options[$this->key_logs] .= "\nLazy images in perfmatters.";
 
                 $options[$this->key_test_lazy_image] = $this->yes;
+            }
+        }
+
+        return $options;
+    }
+
+    public function test_lazy_bg($options) {
+        $perf_options = get_option("perfmatters_options");
+
+        if ($perf_options) {
+            $lazy_bg = $perf_options['lazyload']['css_background_images'] === "1";
+
+            if ($lazy_bg) {
+                $options[$this->key_logs] .= "\nLazy background images in perfmatters.";
+
+                $options[$this->key_test_lazy_bg] = $this->yes;
             }
         }
 
