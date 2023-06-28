@@ -56,9 +56,23 @@ class PracticesFields {
                     'default' => 0
                 ),
                 array(
-                    'id'      => 'image_sizes_reasonable',
+                    'id'      => 'image_files_optimized',
                     'title'   => 'Images',
                     'desc'    => 'Are image sizes optimized?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'image_size_attributes',
+                    'title'   => 'Images',
+                    'desc'    => 'Do images have width and height attributes?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'images_served_responsively',
+                    'title'   => 'Images',
+                    'desc'    => 'Are image sizes served responsively?',
                     'type'    => 'checkbox',
                     'default' => 0
                 ),
@@ -103,7 +117,10 @@ EOT;
         $options = $this->test_caching($options);
         $options = $this->test_minification($options);
         $options = $this->test_image_formats($options);
-        $options = $this->test_image_sizes($options);
+        $options = $this->image_files_optimized($options);
+        $options = $this->test_image_size_attributes($options);
+        $options = $this->test_images_served_responsively($options);
+
 
         $options = $this->test_performance_plugin_activation($options);
 
@@ -198,7 +215,6 @@ EOT;
     public function get_pagespeed_test() {
         $test_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$this->test_subject_url/";
         if(!empty($this->pagespeed_data)) {
-            error_log('    we have pagespeed data, no api calls needed.');
             return $this->pagespeed_data;
         }
 
@@ -229,13 +245,13 @@ EOT;
 
         // zero out test results to begin
         $options[$test_key] = "0";
-        $minification_data = $this->get_pagespeed_test();
+        $pagespeed_results = $this->get_pagespeed_test();
 
-        error_log(print_r($minification_data['lighthouseResult']['audits']['unminified-css']['details']['items'],true));
-        error_log(print_r($minification_data['lighthouseResult']['audits']['unminified-javascript']['details']['items'],true));
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unminified-css']['details']['items'],true));
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unminified-javascript']['details']['items'],true));
 
-        $css_unminified = !!count($minification_data['lighthouseResult']['audits']['unminified-css']['details']['items']);
-        $js_unminified = !!count($minification_data['lighthouseResult']['audits']['unminified-javascript']['details']['items']);
+        $css_unminified = !!count($pagespeed_results['lighthouseResult']['audits']['unminified-css']['details']['items']);
+        $js_unminified = !!count($pagespeed_results['lighthouseResult']['audits']['unminified-javascript']['details']['items']);
 
         if ($css_unminified or $js_unminified) {
             $options[$test_key] = "0"; 
@@ -251,10 +267,10 @@ EOT;
 
         // zero out test results to begin
         $options[$test_key] = "0";
-        $minification_data = $this->get_pagespeed_test();
+        $pagespeed_results = $this->get_pagespeed_test();
 
-        error_log(print_r($minification_data['lighthouseResult']['audits']['modern-image-formats']['details']['items'],true));
-        $old_image_formats = !!count($minification_data['lighthouseResult']['audits']['modern-image-formats']['details']['items']);
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['modern-image-formats']['details']['items'],true));
+        $old_image_formats = !!count($pagespeed_results['lighthouseResult']['audits']['modern-image-formats']['details']['items']);
         
         if ($old_image_formats) {
             $options[$test_key] = "0"; 
@@ -265,19 +281,61 @@ EOT;
         return $options;
     }
 
-    public function test_image_sizes($options) {
-        error_log('Starting image sizes test');
-        $test_key = 'best_practices_image_sizes_reasonable';
+    public function image_files_optimized($options) {
+        error_log('Starting image optimization test');
+        $test_key = 'best_practices_image_files_optimized';
         $log_key = 'best_practices_analysis_logs';
 
         // zero out test results to begin
         $options[$test_key] = "0";
-        $minification_data = $this->get_pagespeed_test();
+        $pagespeed_results = $this->get_pagespeed_test();
 
-        error_log(print_r($minification_data['lighthouseResult']['audits']['uses-optimized-images']['details']['items'],true));
-        $old_image_formats = !!count($minification_data['lighthouseResult']['audits']['uses-optimized-images']['details']['items']);
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-optimized-images']['details']['items'],true));
+        $sub_optimal_images = !!count($pagespeed_results['lighthouseResult']['audits']['uses-optimized-images']['details']['items']);
         
-        if ($old_image_formats) {
+        if ($sub_optimal_images) {
+            $options[$test_key] = "0"; 
+        } else {
+            $options[$test_key] = "1"; 
+        }
+
+        return $options;
+    }
+
+    public function test_image_size_attributes($options) {
+        error_log('Starting image size attributes test');
+        $test_key = 'best_practices_image_size_attributes';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $pagespeed_results = $this->get_pagespeed_test();
+
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unsized-images']['details']['items'],true));
+        $unsized_images = !!count($pagespeed_results['lighthouseResult']['audits']['unsized-images']['details']['items']);
+        
+        if ($unsized_images) {
+            $options[$test_key] = "0"; 
+        } else {
+            $options[$test_key] = "1"; 
+        }
+
+        return $options;
+    }
+
+    public function test_images_served_responsively($options) {
+        error_log('Starting image responsiveness test');
+        $test_key = 'best_practices_images_served_responsively';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $pagespeed_results = $this->get_pagespeed_test();
+
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-responsive-images']['details']['items'],true));
+        $non_responsive_images = !!count($pagespeed_results['lighthouseResult']['audits']['uses-responsive-images']['details']['items']);
+        
+        if ($non_responsive_images) {
             $options[$test_key] = "0"; 
         } else {
             $options[$test_key] = "1"; 
