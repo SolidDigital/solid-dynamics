@@ -19,6 +19,7 @@ class PracticesFields {
     private $key_test_draft_count = 'best_practices_draft_count';
     private $key_test_trash_count = 'best_practices_trash_count';
     private $key_test_comment_count = 'best_practices_comment_count';
+    private $key_test_orphan_meta = 'best_practices_orphan_meta';
 
     private $key_logs = 'best_practices_analysis_logs';
 
@@ -113,6 +114,13 @@ class PracticesFields {
                     'default' => 0
                 ),
                 array(
+                    'id'      => 'orphan_meta',
+                    'title'   => 'Orphan Meta',
+                    'desc'    => 'Is the total number of orphan meta below 100?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
                     'id'      => 'analysis_logs',
                     'title'   => 'Analysis Logs',
                     'desc'    => 'Logs from the last run analysis',
@@ -151,6 +159,7 @@ EOT;
         $options[$this->key_test_draft_count] = $this->no;
         $options[$this->key_test_trash_count] = $this->no;
         $options[$this->key_test_comment_count] = $this->no;
+        $options[$this->key_test_orphan_meta] = $this->no;
 
         $options[$this->key_logs] = "";
 
@@ -172,6 +181,7 @@ EOT;
         $options = $this->test_draft_count($options);
         $options = $this->test_trash_count($options);
         $options = $this->test_comment_count($options);
+        $options = $this->test_orphan_meta($options);
 
         $this->finalize($options);
     }
@@ -433,6 +443,20 @@ EOT;
 
         if ($comments < 100) {
             $options[$this->key_test_comment_count] = $this->yes;
+        }
+
+        return $options;
+    }
+
+    public function test_orphan_meta($options) {
+        global $wpdb;
+
+        $count = $wpdb->query("SELECT meta_id FROM $wpdb->postmeta pm LEFT JOIN $wpdb->posts p ON p.ID = pm.post_id WHERE p.ID IS NULL");
+
+        $options[$this->key_logs] .= "\n" . $count . ' orphan meta.';
+
+        if ($count < 100) {
+            $options[$this->key_test_orphan_meta] = $this->yes;
         }
 
         return $options;
