@@ -12,7 +12,6 @@ class PracticesFields {
     private $key_test_performance = 'best_practices_performance_plugin_activated';
     private $key_logs = 'best_practices_analysis_logs';
     public $pagespeed_data = [];
-    private $test_subject_url = 'https://disturbedone.forumotion.com';
 
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
@@ -213,7 +212,8 @@ EOT;
     }
 
     public function get_pagespeed_test() {
-        $test_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$this->test_subject_url/";
+        $test_subject_url = defined('TEST_SUBJECT_URL') ? TEST_SUBJECT_URL : site_url();
+        $test_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$test_subject_url/";
         if(!empty($this->pagespeed_data)) {
             return $this->pagespeed_data;
         }
