@@ -13,8 +13,10 @@ class PracticesFields {
     private $key_test_js_delay = 'best_practices_js_delayed';
     private $key_test_js_defer = 'best_practices_js_deferred';
     private $key_test_lazy_image = 'best_practices_lazy_image';
-    private $key_test_lazy_iframe = 'best_practices_lazy_iframe';
     private $key_test_lazy_bg = 'best_practices_lazy_bg';
+    private $key_test_lazy_iframe = 'best_practices_lazy_iframe';
+    private $key_test_revisions_count = 'best_practices_revisions_count';
+
     private $key_logs = 'best_practices_analysis_logs';
 
     function __construct() {
@@ -80,6 +82,13 @@ class PracticesFields {
                     'default' => 0
                 ),
                 array(
+                    'id'      => 'revisions_count',
+                    'title'   => 'Revisions',
+                    'desc'    => 'Is the total number of revisions in the DB below 100?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
                     'id'      => 'analysis_logs',
                     'title'   => 'Analysis Logs',
                     'desc'    => 'Logs from the last run analysis',
@@ -114,6 +123,7 @@ EOT;
         $options[$this->key_test_lazy_image] = $this->no;
         $options[$this->key_test_lazy_bg] = $this->no;
         $options[$this->key_test_lazy_iframe] = $this->no;
+        $options[$this->key_test_revisions_count] = $this->no;
         $options[$this->key_logs] = "";
 
         $this->finalize($options);
@@ -130,6 +140,7 @@ EOT;
         $options = $this->test_lazy_image($options);
         $options = $this->test_lazy_bg($options);
         $options = $this->test_lazy_iframe($options);
+        $options = $this->test_revision_count($options);
 
         $this->finalize($options);
     }
@@ -325,6 +336,23 @@ EOT;
 
                 $options[$this->key_test_lazy_iframe] = $this->yes;
             }
+        }
+
+        return $options;
+    }
+
+    public function test_revision_count($options) {
+        $posts = get_posts([
+            'post_type' => 'revision',
+            'post_status' => 'any',
+            'numberposts' => -1,
+            'fields' => 'ids'
+        ]);
+
+        $options[$this->key_logs] .= "\n" . count($posts) . ' revisions.';
+
+        if (count($posts) < 100) {
+            $options[$this->key_test_revisions_count] = $this->yes;
         }
 
         return $options;
