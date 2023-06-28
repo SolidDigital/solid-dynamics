@@ -10,6 +10,7 @@ class PracticesFields {
     private $key_practices_option = 'solid_practices_settings';
     private $key_test_cache = 'best_practices_caching_enabled';
     private $key_test_performance = 'best_practices_performance_plugin_activated';
+    private $key_test_js_delay = 'best_practices_js_delayed';
     private $key_logs = 'best_practices_analysis_logs';
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
@@ -35,6 +36,13 @@ class PracticesFields {
                     'id'      => 'performance_plugin_activated',
                     'title'   => 'Performance',
                     'desc'    => 'Is a performance plugin activated?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'js_delayed',
+                    'title'   => 'JS Delay',
+                    'desc'    => 'Is JS delayed on most pages for most scripts?',
                     'type'    => 'checkbox',
                     'default' => 0
                 ),
@@ -68,6 +76,7 @@ EOT;
         $options = get_option($this->key_practices_option);
         $options[$this->key_test_cache] = $this->no;
         $options[$this->key_test_performance] = $this->no;
+        $options[$this->key_test_js_delay] = $this->no;
         $options[$this->key_logs] = "";
 
         $this->finalize($options);
@@ -79,6 +88,7 @@ EOT;
         $options = $this->test_caching($options);
         $options = $this->test_minification($options);
         $options = $this->test_performance_plugin_activation($options);
+        $options = $this->test_js_delay($options);
 
         $this->finalize($options);
     }
@@ -196,6 +206,23 @@ EOT;
                 $options[$this->key_logs] .= "\nPerformance plugin found: $plugin";
             }
         }
+        return $options;
+    }
+
+    public function test_js_delay($options) {
+        $perf_options = get_option("perfmatters_options");
+
+        if ($perf_options) {
+            $js_delayed = $perf_options['assets']['delay_js'] === "1" && $perf_options['assets']['delay_js_behavior'] === 'all';
+
+            if ($js_delayed) {
+                $options[$this->key_logs] .= "\nJS delayed in perfmatters.";
+
+                $options[$this->key_test_js_delay] = $this->yes;
+            }
+        }
+
+
         return $options;
     }
 }
