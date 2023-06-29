@@ -22,6 +22,7 @@ class PracticesFields {
     private $key_test_orphan_meta = 'best_practices_orphan_meta';
 
     private $key_logs = 'best_practices_analysis_logs';
+    public $pagespeed_data = [];
 
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
@@ -121,6 +122,48 @@ class PracticesFields {
                     'default' => 0
                 ),
                 array(
+                    'id'      => 'assets_minified',
+                    'title'   => 'Assets',
+                    'desc'    => 'Are frontend assets minfied?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'image_formats_modern',
+                    'title'   => 'Images',
+                    'desc'    => 'Are images served in modern formats (avif/webp)?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'image_files_optimized',
+                    'title'   => 'Images',
+                    'desc'    => 'Are image sizes optimized?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'image_size_attributes',
+                    'title'   => 'Images',
+                    'desc'    => 'Do images have width and height attributes?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'images_served_responsively',
+                    'title'   => 'Images',
+                    'desc'    => 'Are image sizes served responsively?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
+                    'id'      => 'text_compression_enabled',
+                    'title'   => 'Compression',
+                    'desc'    => 'Is text compression enabled?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
                     'id'      => 'analysis_logs',
                     'title'   => 'Analysis Logs',
                     'desc'    => 'Logs from the last run analysis',
@@ -171,6 +214,13 @@ EOT;
 
         $options = $this->test_caching($options);
         $options = $this->test_minification($options);
+        $options = $this->test_image_formats($options);
+        $options = $this->image_files_optimized($options);
+        $options = $this->test_image_size_attributes($options);
+        $options = $this->test_images_served_responsively($options);
+        $options = $this->test_text_compression_enabled($options);
+
+
         $options = $this->test_performance_plugin_activation($options);
         $options = $this->test_js_defer($options);
         $options = $this->test_js_delay($options);
@@ -271,7 +321,157 @@ EOT;
         }
     }
 
+    public function get_pagespeed_test() {
+        $test_subject_url = defined('TEST_SUBJECT_URL') ? TEST_SUBJECT_URL : site_url();
+        $test_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$test_subject_url/";
+        if(!empty($this->pagespeed_data)) {
+            return $this->pagespeed_data;
+        }
+
+        error_log('    pagespeed data hasnt been gathered. calling it in, now.');
+        try {
+            $response = wp_remote_post( $test_url, [
+                'method'      => 'GET',
+                'timeout'     => 300,
+                'httpversion' => '1.0',
+                ],
+            );
+
+            $this->pagespeed_data = json_decode($response['body'],true);
+            return $this->pagespeed_data;
+
+        } catch (Exception $e) {
+            echo "Error for $test_url - moving on\n";
+            return false;
+        }
+
+    }
+
     public function test_minification($options) {
+
+        error_log('Starting asset minification test');
+        $test_key = 'best_practices_assets_minified';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $pagespeed_results = $this->get_pagespeed_test();
+
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unminified-css']['details']['items'],true));
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unminified-javascript']['details']['items'],true));
+
+        $css_unminified = !!count($pagespeed_results['lighthouseResult']['audits']['unminified-css']['details']['items']);
+        $js_unminified = !!count($pagespeed_results['lighthouseResult']['audits']['unminified-javascript']['details']['items']);
+
+        if ($css_unminified or $js_unminified) {
+            $options[$test_key] = "0";
+        } else {
+            $options[$test_key] = "1";
+        }
+        return $options;
+    }
+    public function test_image_formats($options) {
+        error_log('Starting image format test');
+        $test_key = 'best_practices_image_formats_modern';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $pagespeed_results = $this->get_pagespeed_test();
+
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['modern-image-formats']['details']['items'],true));
+        $old_image_formats = !!count($pagespeed_results['lighthouseResult']['audits']['modern-image-formats']['details']['items']);
+
+        if ($old_image_formats) {
+            $options[$test_key] = "0";
+        } else {
+            $options[$test_key] = "1";
+        }
+
+        return $options;
+    }
+
+    public function image_files_optimized($options) {
+        error_log('Starting image optimization test');
+        $test_key = 'best_practices_image_files_optimized';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $pagespeed_results = $this->get_pagespeed_test();
+
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-optimized-images']['details']['items'],true));
+        $sub_optimal_images = !!count($pagespeed_results['lighthouseResult']['audits']['uses-optimized-images']['details']['items']);
+
+        if ($sub_optimal_images) {
+            $options[$test_key] = "0";
+        } else {
+            $options[$test_key] = "1";
+        }
+
+        return $options;
+    }
+
+    public function test_image_size_attributes($options) {
+        error_log('Starting image size attributes test');
+        $test_key = 'best_practices_image_size_attributes';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $pagespeed_results = $this->get_pagespeed_test();
+
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unsized-images']['details']['items'],true));
+        $unsized_images = !!count($pagespeed_results['lighthouseResult']['audits']['unsized-images']['details']['items']);
+
+        if ($unsized_images) {
+            $options[$test_key] = "0";
+        } else {
+            $options[$test_key] = "1";
+        }
+
+        return $options;
+    }
+
+    public function test_images_served_responsively($options) {
+        error_log('Starting image responsiveness test');
+        $test_key = 'best_practices_images_served_responsively';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $pagespeed_results = $this->get_pagespeed_test();
+
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-responsive-images']['details']['items'],true));
+        $non_responsive_images = !!count($pagespeed_results['lighthouseResult']['audits']['uses-responsive-images']['details']['items']);
+
+        if ($non_responsive_images) {
+            $options[$test_key] = "0";
+        } else {
+            $options[$test_key] = "1";
+        }
+
+        return $options;
+    }
+
+    public function test_text_compression_enabled($options) {
+        error_log('Starting text compression test');
+        $test_key = 'best_practices_text_compression_enabled';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $pagespeed_results = $this->get_pagespeed_test();
+
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-text-compression']['details']['items'],true));
+        $uncompressed_text = !!count($pagespeed_results['lighthouseResult']['audits']['uses-text-compression']['details']['items']);
+
+        if ($uncompressed_text) {
+            $options[$test_key] = "0";
+        } else {
+            $options[$test_key] = "1";
+        }
+
         return $options;
     }
 
