@@ -7,10 +7,13 @@ class PracticesFields {
     private $no = 'no';
     private $empty = 'empty';
     private $error = 'error';
+    private $checked = '1';
+    private $unchecked = '0';
     private $logging_enabled = true;
 
     private $key_practices_option = 'solid_practices_settings';
     private $key_test_test_url = 'best_practices_test_url';
+    private $key_test_skip_pagespeed = 'best_practices_skip_pagespeed';
     private $key_test_cache = 'best_practices_caching_enabled';
     private $key_test_performance = 'best_practices_performance_plugin_activated';
     private $key_test_js_delay = 'best_practices_js_delayed';
@@ -31,7 +34,7 @@ class PracticesFields {
     private $key_test_text_compression_enabled = 'best_practices_text_compression_enabled';
 
     private $key_logs = 'best_practices_analysis_logs';
-    public $pagespeed_data = [];
+    public $pagespeed_data = null;
 
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
@@ -52,6 +55,13 @@ class PracticesFields {
                     'desc'    => 'Fill this out to override using the homepage to test',
                     'type'    => 'text',
                     'default' => ''
+                ),
+                array(
+                    'id'      => 'skip_pagespeed',
+                    'title'   => 'Pagespeed',
+                    'desc'    => 'Skip running the Google Pagespeed Insights Test',
+                    'type'    => 'checkbox',
+                    'default' => $this->unchecked
                 ),
                 array(
                     'id'      => 'caching_enabled',
@@ -359,7 +369,7 @@ EOT;
     }
 
     private function get_pagespeed_test($options) {
-        if(!empty($this->pagespeed_data)) {
+        if(!empty($this->pagespeed_data) || $options[$this->key_test_skip_pagespeed] === $this->checked) {
             return $this->pagespeed_data;
         }
 
@@ -396,7 +406,9 @@ EOT;
 
         $pagespeed_results = $this->get_pagespeed_test($options);
         if (!$pagespeed_results) {
-            $options[$this->key_test_assets_minified] = $this->error;
+            if ($options[$this->key_test_skip_pagespeed] !== $this->checked) {
+                $options[$this->key_test_assets_minified] = $this->error;
+            }
             return $options;
         }
 
@@ -414,7 +426,9 @@ EOT;
 
         $pagespeed_results = $this->get_pagespeed_test($options);
         if (!$pagespeed_results) {
-            $options[$this->key_test_image_formats_modern] = $this->error;
+            if ($options[$this->key_test_skip_pagespeed] !== $this->checked) {
+                $options[ $this->key_test_image_formats_modern ] = $this->error;
+            }
             return $options;
         }
 
@@ -433,7 +447,9 @@ EOT;
 
         $pagespeed_results = $this->get_pagespeed_test($options);
         if (!$pagespeed_results) {
-            $options[$this->key_test_image_files_optimized] = $this->error;
+            if ($options[$this->key_test_skip_pagespeed] !== $this->checked) {
+                $options[ $this->key_test_image_files_optimized ] = $this->error;
+            }
             return $options;
         }
 
@@ -451,7 +467,9 @@ EOT;
     public function test_image_size_attributes($options) {
         $pagespeed_results = $this->get_pagespeed_test($options);
         if (!$pagespeed_results) {
-            $options[$this->key_test_image_size_attributes] = $this->error;
+            if ($options[$this->key_test_skip_pagespeed] !== $this->checked) {
+                $options[ $this->key_test_image_size_attributes ] = $this->error;
+            }
             return $options;
         }
 
@@ -470,7 +488,9 @@ EOT;
 
         $pagespeed_results = $this->get_pagespeed_test($options);
         if (!$pagespeed_results) {
-            $options[$this->key_test_images_served_responsively] = $this->error;
+            if ($options[$this->key_test_skip_pagespeed] !== $this->checked) {
+                $options[ $this->key_test_images_served_responsively ] = $this->error;
+            }
             return $options;
         }
 
@@ -489,7 +509,9 @@ EOT;
 
         $pagespeed_results = $this->get_pagespeed_test($options);
         if (!$pagespeed_results) {
-            $options[$this->key_test_text_compression_enabled] = $this->error;
+            if ($options[$this->key_test_skip_pagespeed] !== $this->checked) {
+                $options[ $this->key_test_text_compression_enabled ] = $this->error;
+            }
             return $options;
         }
 
