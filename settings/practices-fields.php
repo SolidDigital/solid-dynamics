@@ -76,6 +76,13 @@ class PracticesFields {
                     'default' => 0
                 ),
                 array(
+                    'id'      => 'text_compression_enabled',
+                    'title'   => 'Compression',
+                    'desc'    => 'Is text compression enabled?',
+                    'type'    => 'checkbox',
+                    'default' => 0
+                ),
+                array(
                     'id'      => 'analysis_logs',
                     'title'   => 'Analysis Logs',
                     'desc'    => 'Logs from the last run analysis',
@@ -119,6 +126,7 @@ EOT;
         $options = $this->image_files_optimized($options);
         $options = $this->test_image_size_attributes($options);
         $options = $this->test_images_served_responsively($options);
+        $options = $this->test_text_compression_enabled($options);
 
 
         $options = $this->test_performance_plugin_activation($options);
@@ -336,6 +344,27 @@ EOT;
         $non_responsive_images = !!count($pagespeed_results['lighthouseResult']['audits']['uses-responsive-images']['details']['items']);
         
         if ($non_responsive_images) {
+            $options[$test_key] = "0"; 
+        } else {
+            $options[$test_key] = "1"; 
+        }
+
+        return $options;
+    }
+
+    public function test_text_compression_enabled($options) {
+        error_log('Starting text compression test');
+        $test_key = 'best_practices_text_compression_enabled';
+        $log_key = 'best_practices_analysis_logs';
+
+        // zero out test results to begin
+        $options[$test_key] = "0";
+        $pagespeed_results = $this->get_pagespeed_test();
+
+        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-text-compression']['details']['items'],true));
+        $uncompressed_text = !!count($pagespeed_results['lighthouseResult']['audits']['uses-text-compression']['details']['items']);
+        
+        if ($uncompressed_text) {
             $options[$test_key] = "0"; 
         } else {
             $options[$test_key] = "1"; 
