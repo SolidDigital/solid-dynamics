@@ -3,11 +3,14 @@ namespace Solid;
 
 class PracticesFields {
 
-    private $yes = '1';
-    private $no = '0';
+    private $yes = 'yes';
+    private $no = 'no';
+    private $empty = 'empty';
+    private $error = 'error';
     private $logging_enabled = true;
 
     private $key_practices_option = 'solid_practices_settings';
+    private $key_test_test_url = 'best_practices_test_url';
     private $key_test_cache = 'best_practices_caching_enabled';
     private $key_test_performance = 'best_practices_performance_plugin_activated';
     private $key_test_js_delay = 'best_practices_js_delayed';
@@ -20,6 +23,12 @@ class PracticesFields {
     private $key_test_trash_count = 'best_practices_trash_count';
     private $key_test_comment_count = 'best_practices_comment_count';
     private $key_test_orphan_meta = 'best_practices_orphan_meta';
+    private $key_test_image_files_optimized = 'best_practices_image_files_optimized';
+    private $key_test_assets_minified = 'best_practices_assets_minified';
+    private $key_test_image_formats_modern = 'best_practices_image_formats_modern';
+    private $key_test_image_size_attributes = 'best_practices_image_size_attributes';
+    private $key_test_images_served_responsively = 'best_practices_images_served_responsively';
+    private $key_test_text_compression_enabled = 'best_practices_text_compression_enabled';
 
     private $key_logs = 'best_practices_analysis_logs';
     public $pagespeed_data = [];
@@ -38,130 +47,155 @@ class PracticesFields {
             'section_order'         => 10,
             'fields'                => array(
                 array(
+                    'id'      => 'test_url',
+                    'title'   => 'Test URL',
+                    'desc'    => 'Fill this out to override using the homepage to test',
+                    'type'    => 'text',
+                    'default' => ''
+                ),
+                array(
                     'id'      => 'caching_enabled',
                     'title'   => 'Caching',
                     'desc'    => 'Is caching enabled?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'performance_plugin_activated',
                     'title'   => 'Performance',
                     'desc'    => 'Is a performance plugin activated?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'js_deferred',
                     'title'   => 'JS Defer',
                     'desc'    => 'Is JS deferred on most pages for most scripts?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'js_delayed',
                     'title'   => 'JS Delay',
                     'desc'    => 'Is JS delayed on most pages for most scripts?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'lazy_image',
                     'title'   => 'Lazy Load Images',
                     'desc'    => 'Is lazy loading enabled for below-the-fold images?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'lazy_bg',
                     'title'   => 'Lazy Load Background Images',
                     'desc'    => 'Is lazy loading enabled for background images?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'lazy_iframe',
                     'title'   => 'Lazy Load Iframes/Videos',
                     'desc'    => 'Is lazy loading enabled for iframes/videos?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'revisions_count',
                     'title'   => 'Revisions',
                     'desc'    => 'Is the total number of revisions in the DB below 100?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'draft_count',
                     'title'   => 'Drafts',
                     'desc'    => 'Is the total number of drafts in the DB below 100?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'trash_count',
                     'title'   => 'Trashed',
                     'desc'    => 'Is the total number of trashed posts in the DB below 100?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'comment_count',
                     'title'   => 'Comments',
                     'desc'    => 'Is the total number of spam/trashed comments below 100?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'orphan_meta',
                     'title'   => 'Orphan Meta',
                     'desc'    => 'Is the total number of orphan meta below 100?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'assets_minified',
                     'title'   => 'Assets',
                     'desc'    => 'Are frontend assets minfied?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'image_formats_modern',
                     'title'   => 'Images',
                     'desc'    => 'Are images served in modern formats (avif/webp)?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'image_files_optimized',
                     'title'   => 'Images',
                     'desc'    => 'Are image sizes optimized?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'image_size_attributes',
                     'title'   => 'Images',
                     'desc'    => 'Do images have width and height attributes?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'images_served_responsively',
                     'title'   => 'Images',
                     'desc'    => 'Are image sizes served responsively?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'text_compression_enabled',
                     'title'   => 'Compression',
                     'desc'    => 'Is text compression enabled?',
-                    'type'    => 'checkbox',
-                    'default' => $this->no
+                    'type'    => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty
                 ),
                 array(
                     'id'      => 'analysis_logs',
@@ -173,6 +207,15 @@ class PracticesFields {
             ),
         );
         return $wpsf_settings;
+    }
+
+    private function getYesNoErrorChoices() {
+        return array(
+            $this->empty => 'Not yet run',
+            $this->yes => 'Yes',
+            $this->no => 'No',
+            $this->error => 'Error'
+        );
     }
 
     public function wpsf_analyze_button() {
@@ -191,18 +234,24 @@ EOT;
 
     public function solid_practices_clear() {
         $options = get_option($this->key_practices_option);
-        $options[$this->key_test_cache] = $this->no;
-        $options[$this->key_test_performance] = $this->no;
-        $options[$this->key_test_js_delay] = $this->no;
-        $options[$this->key_test_js_defer] = $this->no;
-        $options[$this->key_test_lazy_image] = $this->no;
-        $options[$this->key_test_lazy_bg] = $this->no;
-        $options[$this->key_test_lazy_iframe] = $this->no;
-        $options[$this->key_test_revisions_count] = $this->no;
-        $options[$this->key_test_draft_count] = $this->no;
-        $options[$this->key_test_trash_count] = $this->no;
-        $options[$this->key_test_comment_count] = $this->no;
-        $options[$this->key_test_orphan_meta] = $this->no;
+        $options[$this->key_test_cache] = $this->empty;
+        $options[$this->key_test_performance] = $this->empty;
+        $options[$this->key_test_js_delay] = $this->empty;
+        $options[$this->key_test_js_defer] = $this->empty;
+        $options[$this->key_test_lazy_image] = $this->empty;
+        $options[$this->key_test_lazy_bg] = $this->empty;
+        $options[$this->key_test_lazy_iframe] = $this->empty;
+        $options[$this->key_test_revisions_count] = $this->empty;
+        $options[$this->key_test_draft_count] = $this->empty;
+        $options[$this->key_test_trash_count] = $this->empty;
+        $options[$this->key_test_comment_count] = $this->empty;
+        $options[$this->key_test_orphan_meta] = $this->empty;
+        $options[$this->key_test_assets_minified] = $this->empty;
+        $options[$this->key_test_image_formats_modern] = $this->empty;
+        $options[$this->key_test_image_files_optimized] = $this->empty;
+        $options[$this->key_test_image_size_attributes] = $this->empty;
+        $options[$this->key_test_images_served_responsively] = $this->empty;
+        $options[$this->key_test_text_compression_enabled] = $this->empty;
 
         $options[$this->key_logs] = '';
 
@@ -244,8 +293,6 @@ EOT;
 
     public function test_caching($options) {
         // The code for this test courtesy of https://wordpress.org/plugins/detect-cache/
-        $this->log('Starting caching test');
-
         // zero out test results to begin
         $options[$this->key_test_cache] = $this->no;
 
@@ -256,45 +303,36 @@ EOT;
                 'verify_peer_name' => false,
             ],
         ]);
-        $url = site_url();
+        $url = $this->get_test_url($options);
         $this->log("Testing URL: $url");
         $headers = get_headers($url);
         foreach ($headers as $key=>$value) {
             if ( stripos($value, "Cache") !== false ) {
-                $this->log("Cache detected $key - $value");
                 $options[$this->key_logs] .= "\nCache detected $key - $value";
                 $options[$this->key_test_cache] = $this->yes;
             } elseif ( stripos($value, "cloudflare") !== false ) {
-                $this->log("Cache potentially detected $key - $value");
                 $options[$this->key_logs] .= "\nCache potentially detected $key - $value";
                 $options[$this->key_test_cache] = $this->yes;
             } elseif ( stripos($value, "X-Forwarded-Proto:") !== false ) {
-                $this->log("Cache detected $key - $value");
                 $options[$this->key_logs] .= "\nCache detected $key - $value";
                 $options[$this->key_test_cache] = $this->yes;
             } elseif ( stripos($value, "BigIp") !== false ) {
-                $this->log("Cache detected $key - $value");
                 $options[$this->key_logs] .= "\nCache detected $key - $value";
                 $options[$this->key_test_cache] = $this->yes;
             } elseif ( stripos($value, "proxy") !== false ) {
-                $this->log("Proxy detected $key - $value");
                 $options[$this->key_logs] .= "\nProxy detected $key - $value";
                 $options[$this->key_logs] .= "\nA Proxy may not mean cache is active, but a proxy can yield unexpected results that mimic caching symptoms.";
                 $options[$this->key_test_cache] = $this->yes;
             } elseif (stripos($value, "varnish") !== false ) {
-                $this->log("Cache detected $key - $value");
                 $options[$this->key_logs] .= "\nCache detected $key - $value";
                 $options[$this->key_test_cache] = $this->yes;
             } elseif (stripos($value, "Vary: X-Forwarded-Proto") !== false ) {
-                $this->log("Cache detected $key - $value");
                 $options[$this->key_logs] .= "\nCache detected $key - $value";
                 $options[$this->key_test_cache] = $this->yes;
             } elseif (stripos($value, "P-LB") !== false ) {
-                $this->log("Cache detected $key - $value");
                 $options[$this->key_logs] .= "\nCache detected $key - $value";
                 $options[$this->key_test_cache] = $this->yes;
             } elseif ( stripos($value, "Cache-Control") !== false ) {
-                $this->log("Cache detected $key - $value");
                 $options[$this->key_logs] .= "\nCache detected $key - $value";
                 $options[$this->key_test_cache] = $this->yes;
             }
@@ -306,7 +344,6 @@ EOT;
         $potential_cache_files = scandir($dir);
         foreach ($potential_cache_files as $the_dir) {
             if (stripos($the_dir, 'cache') !== false) {
-                $this->log("Cache detected in $the_dir");
                 $options[$this->key_logs] .= "\nCache detected in $the_dir";
                 $options[$this->key_test_cache] = $this->yes;
             }
@@ -321,14 +358,14 @@ EOT;
         }
     }
 
-    public function get_pagespeed_test() {
-        $test_subject_url = defined('TEST_SUBJECT_URL') ? TEST_SUBJECT_URL : site_url();
-        $test_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$test_subject_url/";
+    private function get_pagespeed_test($options) {
         if(!empty($this->pagespeed_data)) {
             return $this->pagespeed_data;
         }
 
-        error_log('    pagespeed data hasnt been gathered. calling it in, now.');
+        $test_url = $this->get_test_url($options);
+        $test_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$test_url/";
+
         try {
             $response = wp_remote_post( $test_url, [
                 'method'      => 'GET',
@@ -338,145 +375,131 @@ EOT;
             );
 
             $this->pagespeed_data = json_decode($response['body'],true);
-            echo "<pre>";
-            var_dump($this->pagespeed_data);
-            echo "</pre>";
-            exit;
-            if ($this->pagespeed_data['error']) {
-                echo "no bueno";
+            if (array_key_exists('error', $this->pagespeed_data)) {
+                $this->log('Error with pagespeed report.');
+                $this->log(print_r($this->pagespeed_data, true));
+                $this->pagespeed_data = null;
             }
             return $this->pagespeed_data;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "Error for $test_url - moving on\n";
             return false;
         }
 
     }
 
+    private function get_test_url($options) {
+        return array_dot_get($options, $this->key_test_test_url) ?: site_url();
+    }
     public function test_minification($options) {
 
-        error_log('Starting asset minification test');
-        $test_key = 'best_practices_assets_minified';
-        $log_key = 'best_practices_analysis_logs';
+        $pagespeed_results = $this->get_pagespeed_test($options);
+        if (!$pagespeed_results) {
+            $options[$this->key_test_assets_minified] = $this->error;
+            return $options;
+        }
 
-        // zero out test results to begin
-        $options[$test_key] = $this->no;
-        $pagespeed_results = $this->get_pagespeed_test();
-
-        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unminified-css']['details']['items'],true));
-        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unminified-javascript']['details']['items'],true));
-
-        $css_unminified = !!count($pagespeed_results['lighthouseResult']['audits']['unminified-css']['details']['items']);
-        $js_unminified = !!count($pagespeed_results['lighthouseResult']['audits']['unminified-javascript']['details']['items']);
+        $css_unminified = !!count(array_dot_get($pagespeed_results, 'lighthouseResult.audits.unminified-css.details.items'));
+        $js_unminified = !!count(array_dot_get($pagespeed_results, 'lighthouseResult.audits.unminified-javascript.details.items'));
 
         if ($css_unminified or $js_unminified) {
-            $options[$test_key] = $this->no;
+            $options[$this->key_test_assets_minified] = $this->no;
         } else {
-            $options[$test_key] = $this->yes;
+            $options[$this->key_test_assets_minified] = $this->yes;
         }
         return $options;
     }
     public function test_image_formats($options) {
-        error_log('Starting image format test');
-        $test_key = 'best_practices_image_formats_modern';
-        $log_key = 'best_practices_analysis_logs';
 
-        // zero out test results to begin
-        $options[$test_key] = $this->no;
-        $pagespeed_results = $this->get_pagespeed_test();
+        $pagespeed_results = $this->get_pagespeed_test($options);
+        if (!$pagespeed_results) {
+            $options[$this->key_test_image_formats_modern] = $this->error;
+            return $options;
+        }
 
-        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['modern-image-formats']['details']['items'],true));
-        $old_image_formats = !!count($pagespeed_results['lighthouseResult']['audits']['modern-image-formats']['details']['items']);
+        $old_image_formats = !!count(array_dot_get($pagespeed_results, 'lighthouseResult.audits.modern-image-formats.details.items'));
 
         if ($old_image_formats) {
-            $options[$test_key] = $this->no;
+            $options[$this->key_test_image_formats_modern] = $this->no;
         } else {
-            $options[$test_key] = $this->yes;
+            $options[$this->key_test_image_formats_modern] = $this->yes;
         }
 
         return $options;
     }
 
     public function image_files_optimized($options) {
-        error_log('Starting image optimization test');
-        $test_key = 'best_practices_image_files_optimized';
-        $log_key = 'best_practices_analysis_logs';
 
-        // zero out test results to begin
-        $options[$test_key] = $this->no;
-        $pagespeed_results = $this->get_pagespeed_test();
+        $pagespeed_results = $this->get_pagespeed_test($options);
+        if (!$pagespeed_results) {
+            $options[$this->key_test_image_files_optimized] = $this->error;
+            return $options;
+        }
 
-        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-optimized-images']['details']['items'],true));
-        $sub_optimal_images = !!count($pagespeed_results['lighthouseResult']['audits']['uses-optimized-images']['details']['items']);
+        $sub_optimal_images = !!count(array_dot_get($pagespeed_results, 'lighthouseResult.audits.uses-optimized-images.details.items'));
 
         if ($sub_optimal_images) {
-            $options[$test_key] = $this->no;
+            $options[$this->key_test_image_files_optimized] = $this->no;
         } else {
-            $options[$test_key] = $this->yes;
+            $options[$this->key_test_image_files_optimized] = $this->yes;
         }
 
         return $options;
     }
 
     public function test_image_size_attributes($options) {
-        error_log('Starting image size attributes test');
-        $test_key = 'best_practices_image_size_attributes';
-        $log_key = 'best_practices_analysis_logs';
+        $pagespeed_results = $this->get_pagespeed_test($options);
+        if (!$pagespeed_results) {
+            $options[$this->key_test_image_size_attributes] = $this->error;
+            return $options;
+        }
 
-        // zero out test results to begin
-        $options[$test_key] = $this->no;
-        $pagespeed_results = $this->get_pagespeed_test();
-
-        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unsized-images']['details']['items'],true));
-        $unsized_images = !!count($pagespeed_results['lighthouseResult']['audits']['unsized-images']['details']['items']);
+        $unsized_images = !!count(array_dot_get($pagespeed_results, 'lighthouseResult.audits.unsized-images.details.items'));
 
         if ($unsized_images) {
-            $options[$test_key] = $this->no;
+            $options[$this->key_test_image_size_attributes] = $this->no;
         } else {
-            $options[$test_key] = $this->yes;
+            $options[$this->key_test_image_size_attributes] = $this->yes;
         }
 
         return $options;
     }
 
     public function test_images_served_responsively($options) {
-        error_log('Starting image responsiveness test');
-        $test_key = 'best_practices_images_served_responsively';
-        $log_key = 'best_practices_analysis_logs';
 
-        // zero out test results to begin
-        $options[$test_key] = $this->no;
-        $pagespeed_results = $this->get_pagespeed_test();
+        $pagespeed_results = $this->get_pagespeed_test($options);
+        if (!$pagespeed_results) {
+            $options[$this->key_test_images_served_responsively] = $this->error;
+            return $options;
+        }
 
-        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-responsive-images']['details']['items'],true));
-        $non_responsive_images = !!count($pagespeed_results['lighthouseResult']['audits']['uses-responsive-images']['details']['items']);
+        $non_responsive_images = !!count(array_dot_get($pagespeed_results, 'lighthouseResult.audits.uses-responsive-images.details.items'));
 
         if ($non_responsive_images) {
-            $options[$test_key] = $this->no;
+            $options[$this->key_test_images_served_responsively] = $this->no;
         } else {
-            $options[$test_key] = $this->yes;
+            $options[$this->key_test_images_served_responsively] = $this->yes;
         }
 
         return $options;
     }
 
     public function test_text_compression_enabled($options) {
-        error_log('Starting text compression test');
-        $test_key = 'best_practices_text_compression_enabled';
-        $log_key = 'best_practices_analysis_logs';
 
-        // zero out test results to begin
-        $options[$test_key] = $this->no;
-        $pagespeed_results = $this->get_pagespeed_test();
+        $pagespeed_results = $this->get_pagespeed_test($options);
+        if (!$pagespeed_results) {
+            $options[$this->key_test_text_compression_enabled] = $this->error;
+            return $options;
+        }
 
-        // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-text-compression']['details']['items'],true));
-        $uncompressed_text = !!count($pagespeed_results['lighthouseResult']['audits']['uses-text-compression']['details']['items']);
+
+        $uncompressed_text = !!count(array_dot_get($pagespeed_results, 'lighthouseResult.audits.uses-text-compression.details.items'));
 
         if ($uncompressed_text) {
-            $options[$test_key] = $this->no;
+            $options[$this->key_test_text_compression_enabled] = $this->no;
         } else {
-            $options[$test_key] = $this->yes;
+            $options[$this->key_test_text_compression_enabled] = $this->yes;
         }
 
         return $options;
@@ -519,7 +542,11 @@ EOT;
                 $options[$this->key_logs] .= "\nJS deferred in perfmatters.";
 
                 $options[$this->key_test_js_defer] = $this->yes;
+            } else {
+                $options[$this->key_test_js_defer] = $this->no;
             }
+        } else {
+            $options[$this->key_test_js_defer] = $this->error;
         }
 
         return $options;
@@ -535,7 +562,11 @@ EOT;
                 $options[$this->key_logs] .= "\nJS delayed in perfmatters.";
 
                 $options[$this->key_test_js_delay] = $this->yes;
+            } else {
+                $options[$this->key_test_js_delay] = $this->no;
             }
+        } else {
+            $options[$this->key_test_js_delay] = $this->error;
         }
 
         return $options;
@@ -551,7 +582,11 @@ EOT;
                 $options[$this->key_logs] .= "\nLazy images in perfmatters.";
 
                 $options[$this->key_test_lazy_image] = $this->yes;
+            } else {
+                $options[$this->key_test_lazy_image] = $this->no;
             }
+        } else {
+            $options[$this->key_test_lazy_image] = $this->error;
         }
 
         return $options;
@@ -567,7 +602,11 @@ EOT;
                 $options[$this->key_logs] .= "\nLazy background images in perfmatters.";
 
                 $options[$this->key_test_lazy_bg] = $this->yes;
+            } else {
+                $options[$this->key_test_lazy_bg] = $this->no;
             }
+        } else {
+            $options[$this->key_test_lazy_bg] = $this->error;
         }
 
         return $options;
@@ -583,7 +622,11 @@ EOT;
                 $options[$this->key_logs] .= "\nLazy iframes in perfmatters.";
 
                 $options[$this->key_test_lazy_iframe] = $this->yes;
+            } else {
+                $options[$this->key_test_lazy_iframe] = $this->no;
             }
+        } else {
+            $options[$this->key_test_lazy_iframe] = $this->error;
         }
 
         return $options;
@@ -601,6 +644,8 @@ EOT;
 
         if (count($posts) < 100) {
             $options[$this->key_test_revisions_count] = $this->yes;
+        } else {
+            $options[$this->key_test_revisions_count] = $this->no;
         }
 
         return $options;
@@ -618,6 +663,8 @@ EOT;
 
         if (count($posts) < 100) {
             $options[$this->key_test_draft_count] = $this->yes;
+        } else {
+            $options[$this->key_test_draft_count] = $this->no;
         }
 
         return $options;
@@ -635,6 +682,8 @@ EOT;
 
         if (count($posts) < 100) {
             $options[$this->key_test_trash_count] = $this->yes;
+        } else {
+            $options[$this->key_test_trash_count] = $this->no;
         }
 
         return $options;
@@ -650,6 +699,8 @@ EOT;
 
         if ($comments < 100) {
             $options[$this->key_test_comment_count] = $this->yes;
+        } else {
+            $options[$this->key_test_comment_count] = $this->yes;
         }
 
         return $options;
@@ -663,6 +714,8 @@ EOT;
         $options[$this->key_logs] .= "\n" . $count . ' orphan meta.';
 
         if ($count < 100) {
+            $options[$this->key_test_orphan_meta] = $this->yes;
+        } else {
             $options[$this->key_test_orphan_meta] = $this->yes;
         }
 
