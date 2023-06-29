@@ -3,8 +3,8 @@ namespace Solid;
 
 class PracticesFields {
 
-    private $yes = "1";
-    private $no = "0";
+    private $yes = '1';
+    private $no = '0';
     private $logging_enabled = true;
 
     private $key_practices_option = 'solid_practices_settings';
@@ -42,126 +42,126 @@ class PracticesFields {
                     'title'   => 'Caching',
                     'desc'    => 'Is caching enabled?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'performance_plugin_activated',
                     'title'   => 'Performance',
                     'desc'    => 'Is a performance plugin activated?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'js_deferred',
                     'title'   => 'JS Defer',
                     'desc'    => 'Is JS deferred on most pages for most scripts?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'js_delayed',
                     'title'   => 'JS Delay',
                     'desc'    => 'Is JS delayed on most pages for most scripts?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'lazy_image',
                     'title'   => 'Lazy Load Images',
                     'desc'    => 'Is lazy loading enabled for below-the-fold images?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'lazy_bg',
                     'title'   => 'Lazy Load Background Images',
                     'desc'    => 'Is lazy loading enabled for background images?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'lazy_iframe',
                     'title'   => 'Lazy Load Iframes/Videos',
                     'desc'    => 'Is lazy loading enabled for iframes/videos?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'revisions_count',
                     'title'   => 'Revisions',
                     'desc'    => 'Is the total number of revisions in the DB below 100?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'draft_count',
                     'title'   => 'Drafts',
                     'desc'    => 'Is the total number of drafts in the DB below 100?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'trash_count',
                     'title'   => 'Trashed',
                     'desc'    => 'Is the total number of trashed posts in the DB below 100?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'comment_count',
                     'title'   => 'Comments',
                     'desc'    => 'Is the total number of spam/trashed comments below 100?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'orphan_meta',
                     'title'   => 'Orphan Meta',
                     'desc'    => 'Is the total number of orphan meta below 100?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'assets_minified',
                     'title'   => 'Assets',
                     'desc'    => 'Are frontend assets minfied?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'image_formats_modern',
                     'title'   => 'Images',
                     'desc'    => 'Are images served in modern formats (avif/webp)?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'image_files_optimized',
                     'title'   => 'Images',
                     'desc'    => 'Are image sizes optimized?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'image_size_attributes',
                     'title'   => 'Images',
                     'desc'    => 'Do images have width and height attributes?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'images_served_responsively',
                     'title'   => 'Images',
                     'desc'    => 'Are image sizes served responsively?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'text_compression_enabled',
                     'title'   => 'Compression',
                     'desc'    => 'Is text compression enabled?',
                     'type'    => 'checkbox',
-                    'default' => 0
+                    'default' => $this->no
                 ),
                 array(
                     'id'      => 'analysis_logs',
@@ -204,7 +204,7 @@ EOT;
         $options[$this->key_test_comment_count] = $this->no;
         $options[$this->key_test_orphan_meta] = $this->no;
 
-        $options[$this->key_logs] = "";
+        $options[$this->key_logs] = '';
 
         $this->finalize($options);
     }
@@ -338,6 +338,13 @@ EOT;
             );
 
             $this->pagespeed_data = json_decode($response['body'],true);
+            echo "<pre>";
+            var_dump($this->pagespeed_data);
+            echo "</pre>";
+            exit;
+            if ($this->pagespeed_data['error']) {
+                echo "no bueno";
+            }
             return $this->pagespeed_data;
 
         } catch (Exception $e) {
@@ -354,7 +361,7 @@ EOT;
         $log_key = 'best_practices_analysis_logs';
 
         // zero out test results to begin
-        $options[$test_key] = "0";
+        $options[$test_key] = $this->no;
         $pagespeed_results = $this->get_pagespeed_test();
 
         // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unminified-css']['details']['items'],true));
@@ -364,9 +371,9 @@ EOT;
         $js_unminified = !!count($pagespeed_results['lighthouseResult']['audits']['unminified-javascript']['details']['items']);
 
         if ($css_unminified or $js_unminified) {
-            $options[$test_key] = "0";
+            $options[$test_key] = $this->no;
         } else {
-            $options[$test_key] = "1";
+            $options[$test_key] = $this->yes;
         }
         return $options;
     }
@@ -376,16 +383,16 @@ EOT;
         $log_key = 'best_practices_analysis_logs';
 
         // zero out test results to begin
-        $options[$test_key] = "0";
+        $options[$test_key] = $this->no;
         $pagespeed_results = $this->get_pagespeed_test();
 
         // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['modern-image-formats']['details']['items'],true));
         $old_image_formats = !!count($pagespeed_results['lighthouseResult']['audits']['modern-image-formats']['details']['items']);
 
         if ($old_image_formats) {
-            $options[$test_key] = "0";
+            $options[$test_key] = $this->no;
         } else {
-            $options[$test_key] = "1";
+            $options[$test_key] = $this->yes;
         }
 
         return $options;
@@ -397,16 +404,16 @@ EOT;
         $log_key = 'best_practices_analysis_logs';
 
         // zero out test results to begin
-        $options[$test_key] = "0";
+        $options[$test_key] = $this->no;
         $pagespeed_results = $this->get_pagespeed_test();
 
         // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-optimized-images']['details']['items'],true));
         $sub_optimal_images = !!count($pagespeed_results['lighthouseResult']['audits']['uses-optimized-images']['details']['items']);
 
         if ($sub_optimal_images) {
-            $options[$test_key] = "0";
+            $options[$test_key] = $this->no;
         } else {
-            $options[$test_key] = "1";
+            $options[$test_key] = $this->yes;
         }
 
         return $options;
@@ -418,16 +425,16 @@ EOT;
         $log_key = 'best_practices_analysis_logs';
 
         // zero out test results to begin
-        $options[$test_key] = "0";
+        $options[$test_key] = $this->no;
         $pagespeed_results = $this->get_pagespeed_test();
 
         // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['unsized-images']['details']['items'],true));
         $unsized_images = !!count($pagespeed_results['lighthouseResult']['audits']['unsized-images']['details']['items']);
 
         if ($unsized_images) {
-            $options[$test_key] = "0";
+            $options[$test_key] = $this->no;
         } else {
-            $options[$test_key] = "1";
+            $options[$test_key] = $this->yes;
         }
 
         return $options;
@@ -439,16 +446,16 @@ EOT;
         $log_key = 'best_practices_analysis_logs';
 
         // zero out test results to begin
-        $options[$test_key] = "0";
+        $options[$test_key] = $this->no;
         $pagespeed_results = $this->get_pagespeed_test();
 
         // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-responsive-images']['details']['items'],true));
         $non_responsive_images = !!count($pagespeed_results['lighthouseResult']['audits']['uses-responsive-images']['details']['items']);
 
         if ($non_responsive_images) {
-            $options[$test_key] = "0";
+            $options[$test_key] = $this->no;
         } else {
-            $options[$test_key] = "1";
+            $options[$test_key] = $this->yes;
         }
 
         return $options;
@@ -460,16 +467,16 @@ EOT;
         $log_key = 'best_practices_analysis_logs';
 
         // zero out test results to begin
-        $options[$test_key] = "0";
+        $options[$test_key] = $this->no;
         $pagespeed_results = $this->get_pagespeed_test();
 
         // error_log(print_r($pagespeed_results['lighthouseResult']['audits']['uses-text-compression']['details']['items'],true));
         $uncompressed_text = !!count($pagespeed_results['lighthouseResult']['audits']['uses-text-compression']['details']['items']);
 
         if ($uncompressed_text) {
-            $options[$test_key] = "0";
+            $options[$test_key] = $this->no;
         } else {
-            $options[$test_key] = "1";
+            $options[$test_key] = $this->yes;
         }
 
         return $options;
@@ -506,7 +513,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $js_deferred = array_dot_get($perf_options, 'assets.defer_js') === "1";
+            $js_deferred = array_dot_get($perf_options, 'assets.defer_js') === $this->yes;
 
             if ($js_deferred) {
                 $options[$this->key_logs] .= "\nJS deferred in perfmatters.";
@@ -522,7 +529,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $js_delayed = array_dot_get($perf_options, 'assets.delay_js') === "1" && array_dot_get($perf_options, 'assets.delay_js_behavior') === 'all';
+            $js_delayed = array_dot_get($perf_options, 'assets.delay_js') === $this->yes && array_dot_get($perf_options, 'assets.delay_js_behavior') === 'all';
 
             if ($js_delayed) {
                 $options[$this->key_logs] .= "\nJS delayed in perfmatters.";
@@ -538,7 +545,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $lazy_image = array_dot_get($perf_options, 'lazyload.lazy_loading') === "1";
+            $lazy_image = array_dot_get($perf_options, 'lazyload.lazy_loading') === $this->yes;
 
             if ($lazy_image) {
                 $options[$this->key_logs] .= "\nLazy images in perfmatters.";
@@ -554,7 +561,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $lazy_bg = array_dot_get($perf_options, 'lazyload.css_background_images') === "1";
+            $lazy_bg = array_dot_get($perf_options, 'lazyload.css_background_images') === $this->yes;
 
             if ($lazy_bg) {
                 $options[$this->key_logs] .= "\nLazy background images in perfmatters.";
@@ -570,7 +577,7 @@ EOT;
         $perf_options = get_option("perfmatters_options");
 
         if ($perf_options) {
-            $lazy_iframe = array_dot_get($perf_options, 'lazyload.lazy_loading_iframes') === "1";
+            $lazy_iframe = array_dot_get($perf_options, 'lazyload.lazy_loading_iframes') === $this->yes;
 
             if ($lazy_iframe) {
                 $options[$this->key_logs] .= "\nLazy iframes in perfmatters.";
