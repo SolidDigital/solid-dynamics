@@ -7,12 +7,14 @@ require_once __DIR__ . '/solid-wpsf.php';
 class Settings {
 	private $wpsf;
 	private $wpsf2;
+	private $wpsf3;
 
 	public function __construct() {
 
 		// Include and create a new WordPressSettingsFramework.
 		$this->wpsf = new \WordPressSettingsFramework( __DIR__ . '/settings-fields.php', 'solid_dynamics' );
 		$this->wpsf2 = new SolidWPSF( __DIR__ . '/practices-fields.php', 'solid_practices' );
+		$this->wpsf3 = new SolidWPSF( __DIR__ . '/practices-fields.php', 'solid_nonautomated_practices' );
 
 		// Add admin menu.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
@@ -38,6 +40,14 @@ class Settings {
                 'parent_slug' => 'options-general.php',
                 'page_title'  => esc_html__( 'Solid Practices', 'solid-practices' ),
                 'menu_title'  => esc_html__( 'Solid Practices', 'solid-practices' ),
+                'capability'  => 'manage_options',
+            )
+        );
+        $this->wpsf3->add_settings_page(
+            array(
+                'parent_slug' => 'options-general.php',
+                'page_title'  => esc_html__( 'Solid Practices 2', 'solid_nonautomated_practices' ),
+                'menu_title'  => esc_html__( 'Solid Practices 2', 'solid_nonautomated_practices' ),
                 'capability'  => 'manage_options',
             )
         );

@@ -37,10 +37,42 @@ class PracticesFields {
     public $pagespeed_data = null;
 
     function __construct() {
+        add_filter( 'wpsf_register_settings_solid_nonautomated_practices', array($this, 'wpsf_register_nonautomated_practices') );
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
         add_action( 'wpsf_before_settings_solid_practices', array($this, 'wpsf_analyze_button') );
         add_action( 'admin_action_solid_practices_run', array($this, 'solid_practices_run') );
         add_action( 'admin_action_solid_practices_clear', array($this, 'solid_practices_clear') );
+    }
+
+    public function wpsf_register_nonautomated_practices() {
+        $practices = array_map('str_getcsv', file(__DIR__ . '/practices.csv'));
+        $fields = [];
+        foreach($practices as $practice) {
+            
+            $interrogative = strtolower(explode(" ", $practice[0])[0]);
+            if (in_array($interrogative,  ['is','does','are'])) {
+
+                $field = [
+                    'id' => str_replace('-', '_', sanitize_title($practice[0])),
+                    'title' => $practice[0],
+                    'desc' => $practice[7],
+                    'type' => 'select',
+                    'choices' => $this->getYesNoErrorChoices(),
+                    'default' => $this->empty,
+                ];
+                $fields[] = $field;
+            }
+        }
+        $wpsf_settings[] = [
+            'section_id'            => 'best_practices_nonautomated',
+            'section_title'         => 'Best Practices (non-automated)',
+            'section_order'         => 11,
+            'fields'                => $fields,
+        ];
+
+        // error_log(print_r($fields,true));
+        error_log('number of questions: ' . count($fields));
+        return $fields;
     }
 
     public function wpsf_register_practices( $wpsf_settings ) {
