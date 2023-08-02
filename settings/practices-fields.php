@@ -38,6 +38,8 @@ class PracticesFields {
 
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_nonautomated_practices', array($this, 'wpsf_register_nonautomated_practices') );
+        add_action( 'wpsf_before_settings_solid_nonautomated_practices', array($this, 'wpsf_clear_button') );
+
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
         add_action( 'wpsf_before_settings_solid_practices', array($this, 'wpsf_analyze_button') );
         add_action( 'admin_action_solid_practices_run', array($this, 'solid_practices_run') );
@@ -78,8 +80,6 @@ class PracticesFields {
             'section_order'         => 11,
             'fields'                => $fields,
         ];
-
-        // error_log(print_r($fields,true));
         error_log('number of questions: ' . count($fields));
         return $wpsf_settings;
     }
@@ -290,6 +290,15 @@ class PracticesFields {
 </form>
 EOT;
     }
+    public function wpsf_clear_button() {
+        $admin_url = admin_url( 'admin.php' );
+        echo <<<EOT
+<form method="POST" action="$admin_url">
+    <input type="hidden" name="action" value="solid_nonautomated_practices_clear" />
+    <p><input type="submit" class="button button-primary" value="Clear Results" /></p>
+</form>
+EOT;
+    }
 
     public function solid_practices_clear() {
         $options = get_option($this->key_practices_option);
@@ -313,6 +322,21 @@ EOT;
         $options[$this->key_test_text_compression_enabled] = $this->empty;
 
         $options[$this->key_logs] = '';
+
+        $this->finalize($options);
+    }
+
+    public function solid_nonautomated_practices_clear() {
+        error_log('clearing the options');
+        $options = get_option('solid_nonautomated_practices_settings');
+
+        $practices = array_map('str_getcsv', file(__DIR__ . '/practices.csv'));
+        
+        foreach($practices as $practice) {
+            $practice_id = 'best_practices_nonautomated_' . str_replace('-', '_', sanitize_title($practice[0]));
+            $options[$practice_id] = '';
+        }
+
 
         $this->finalize($options);
     }
