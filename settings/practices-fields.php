@@ -44,22 +44,31 @@ class PracticesFields {
         add_action( 'admin_action_solid_practices_clear', array($this, 'solid_practices_clear') );
     }
 
-    public function wpsf_register_nonautomated_practices() {
+    public function wpsf_register_nonautomated_practices( $wpsf_settings ) {
         $practices = array_map('str_getcsv', file(__DIR__ . '/practices.csv'));
         $fields = [];
         foreach($practices as $practice) {
             
             $interrogative = strtolower(explode(" ", $practice[0])[0]);
-            if (in_array($interrogative,  ['is','does','are'])) {
-
-                $field = [
-                    'id' => str_replace('-', '_', sanitize_title($practice[0])),
-                    'title' => $practice[0],
-                    'desc' => $practice[7],
-                    'type' => 'select',
-                    'choices' => $this->getYesNoErrorChoices(),
-                    'default' => $this->empty,
-                ];
+            $field = [
+                'id' => str_replace('-', '_', sanitize_title($practice[0])),
+                'title' => $practice[0],
+                'desc' => $practice[7],
+            ];
+            if (in_array($interrogative,  ['is','if','does','are','can'])) {
+                $field['type'] = 'select';
+                $field['choices'] = $this->getYesNoChoices();
+                $field['default'] = $this->empty;
+                $fields[] = $field;
+            } 
+            else if (in_array($interrogative,  ['which','how'])) {
+                $field['type'] = 'textarea';
+                $field['default'] = '';
+                $fields[] = $field;
+            }
+            else if (in_array($interrogative,  ['what'])) {
+                $field['type'] = 'text';
+                $field['default'] = '';
                 $fields[] = $field;
             }
         }
@@ -72,7 +81,7 @@ class PracticesFields {
 
         // error_log(print_r($fields,true));
         error_log('number of questions: ' . count($fields));
-        return $fields;
+        return $wpsf_settings;
     }
 
     public function wpsf_register_practices( $wpsf_settings ) {
@@ -249,6 +258,14 @@ class PracticesFields {
             ),
         );
         return $wpsf_settings;
+    }
+
+    private function getYesNoChoices() {
+        return array(
+            $this->empty => 'Select',
+            $this->yes => 'Yes',
+            $this->no => 'No'
+        );
     }
 
     private function getYesNoErrorChoices() {

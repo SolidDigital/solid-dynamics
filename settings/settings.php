@@ -46,8 +46,8 @@ class Settings {
         $this->wpsf3->add_settings_page(
             array(
                 'parent_slug' => 'options-general.php',
-                'page_title'  => esc_html__( 'Solid Practices 2', 'solid_nonautomated_practices' ),
-                'menu_title'  => esc_html__( 'Solid Practices 2', 'solid_nonautomated_practices' ),
+                'page_title'  => esc_html__( 'Solid Practices 2', 'solid-nonautomated_practices' ),
+                'menu_title'  => esc_html__( 'Solid Practices 2', 'solid-nonautomated_practices' ),
                 'capability'  => 'manage_options',
             )
         );
