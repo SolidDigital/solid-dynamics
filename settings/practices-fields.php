@@ -39,6 +39,7 @@ class PracticesFields {
     function __construct() {
         add_filter( 'wpsf_register_settings_solid_nonautomated_practices', array($this, 'wpsf_register_nonautomated_practices') );
         add_action( 'wpsf_before_settings_solid_nonautomated_practices', array($this, 'wpsf_clear_button') );
+        add_action( 'admin_action_solid_nonautomated_practices_clear', array($this, 'solid_nonautomated_practices_clear') );
 
         add_filter( 'wpsf_register_settings_solid_practices', array($this, 'wpsf_register_practices') );
         add_action( 'wpsf_before_settings_solid_practices', array($this, 'wpsf_analyze_button') );
@@ -295,7 +296,7 @@ EOT;
         echo <<<EOT
 <form method="POST" action="$admin_url">
     <input type="hidden" name="action" value="solid_nonautomated_practices_clear" />
-    <p><input type="submit" class="button button-primary" value="Clear Results" /></p>
+    <p><input type="submit" class="button button-primary" value="Clear Answers" /></p>
 </form>
 EOT;
     }
@@ -337,6 +338,9 @@ EOT;
             $options[$practice_id] = '';
         }
 
+        update_option('solid_nonautomated_practices_settings', $options);
+        wp_redirect(home_url() . '/wp-admin/admin.php?page=solid-nonautomated-practices-settings');
+        exit;
 
         $this->finalize($options);
     }
