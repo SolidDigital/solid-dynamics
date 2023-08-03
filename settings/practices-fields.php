@@ -342,7 +342,6 @@ EOT;
         wp_redirect(home_url() . '/wp-admin/admin.php?page=solid-nonautomated-practices-settings');
         exit;
 
-        $this->finalize($options);
     }
 
     public function solid_practices_run() {
