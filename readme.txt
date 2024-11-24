@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.7.1
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 Requires PHP: 7.0
 License: GPLv2
 
@@ -53,37 +53,48 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 
 == Changelog ==
 
-= 2024-11-23: 1.6.0 =
+= 1.6.0 =
+2024-11-23
 - Feature: `Widget Usage`
 
-= 2023-04-08: 1.5.0 =
+= 1.5.0 =
+2023-04-08
 - Feature: add `Disable Users REST API`
 - Feature: add `Post Field` dynamic tag.
 
-= 2022-12-09: 1.3.4 =
+= 1.3.4 =
+2022-12-09
 - Fix fatal error on get_class call.
 
-= 2022-12-09: 1.3.3 =
+= 1.3.3 =
+2022-12-09
 - Add support for term and user meta to list pluck tag.
 
-= 2022-12-05: 1.3.2 =
+= 1.3.2 =
+2022-12-05
 - Add support for wp_options to list pluck tag.
 
-= 2022-11-01: 1.3.0 =
+= 1.3.0 =
+2022-11-01
 - Feature: add settings: Disable 404 permalink guessing; Hide the page title from the Hello Elementor theme; Wrap Elementor content with `main#content`; Make Elementor fade in entrance animations more subtle.
 
-= 2022-09-02: 1.2.0 =
+= 1.2.0 =
+2022-09-02
 - Feature: add settings page with option to remove elementor's "back to wp editor" button.
 
-= 2022-08-13: 1.1.3 =
+= 1.1.3 =
+2022-08-13
 - Bug fix: Do not try to load JetEngine if plugin is not preseent
 
-= 2022-08-09: 1.1.2 =
+= 1.1.2 =
+2022-08-09
 - Bug fix: Escape custom callback output with wp_kses_post since it could include html.
 - Bug fix: Escape the menu output with esc_html since it should only be comma-separated ids.
 
-= 2022-03-16: 1.1.0 =
+= 1.1.0 =
+2022-03-16
 - Feature: Add menu dynamic tag.
 
-= 2021-06-15: 1.0.0 =
+= 1.0.0 =
+2021-06-15
 - Feature: Initial release
