@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.7.1
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 Requires PHP: 7.0
 License: GPLv2
 
@@ -10,11 +10,9 @@ Helpful utilities for Elementor, Jet Engine, and beyond.
 
 == Description ==
 
-This plugin provides an Admin Page called, "Widget Usage" that shows the individual posts in which a widget is used.
-Currently, the Elementor Element Manager only shows the total number of usages of a widget. We're always wondering
-where those widgets are being used, and "Widget Usage" is the answer to that question.
+This plugin provides an Admin Page called, "Widget Usage" under the "Solid Dynamics" menu that shows the individual posts in which a widget is used. Currently, the Elementor Element Manager only shows the total number of usages of a widget. We're always wondering where those widgets are being used, and "Widget Usage" is the answer to that question.
 
-Solid Dynamics also provides several dynamic tags under the "Solid Dynamics" section:
+Solid Dynamics also provides several dynamic tags under the "Solid Dynamics" section in Elementor:
 
 - `Custom Callback`: Call any php function. The current post is passed as the first argument.
 - `Menu`: Returns comma-separated post ids of a specific menu.
@@ -22,7 +20,7 @@ Solid Dynamics also provides several dynamic tags under the "Solid Dynamics" sec
 - `List Pluck`: Pluck `field` off each item in `list` (`src` meta or option), and join with `sep`.
 - `Post Field`: Retrieves custom post field by name.
 
-This plugin also provides several general use and Elementor specific settings at Settings > Solid Dynamics. All settings have to be opted in to. Activating the plugin does not activate any of the settings. Activating the plugin does automatically make the dynamic tags listed above available.
+This plugin also provides several general use and Elementor specific settings under the menu Solid Dynamics. All settings have to be opted in to. Activating the plugin does not activate any of the settings. Activating the plugin does automatically make the dynamic tags listed above available.
 
 General:
 
@@ -52,6 +50,15 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.6.2 =
+2024-11-24
+- Feature: Moving "Solid Dynamics" to its own menu page
+- Patch: Ensuring "Widget Usage" menu option is visible
+
+= 1.6.1 =
+2024-11-23
+- Patch: Changelog update
 
 = 1.6.0 =
 2024-11-23

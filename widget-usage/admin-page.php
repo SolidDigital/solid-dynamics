@@ -3,9 +3,10 @@ namespace Solid;
 
 // Hook to add the admin menu page
 add_action('admin_menu', function () {
-    add_menu_page(
-        'Elementor Widget Usage',   // Page title
-        'Widget Usage',            // Menu title
+    add_submenu_page(
+        'solid-dynamics-settings',
+        __('Elementor Widget Usage', 'solid-dynamics'),   // Page title
+        __('Widget Usage', 'solid-dynamics'),            // Menu title
         'manage_options',          // Capability
         'elementor-widget-usage',  // Menu slug
         __NAMESPACE__ . '\render_widget_usage_page' // Callback function
@@ -20,16 +21,16 @@ function render_widget_usage_page() {
     <div class="wrap">
         <h1>Find Elementor Widget Usage</h1>
         <form method="post" id="widget-usage-form">
-            <label for="widget_name">Select Widget:</label>
+            <label for="widget_name"><?php echo __('Select Widget', 'solid-dynamics'); ?>:</label>
             <select id="widget_name" name="widget_name" required>
-                <option value="">-- Select a Widget --</option>
+                <option value="">-- <?php echo __('Select a Widget', 'solid-dynamics'); ?> --</option>
                 <?php foreach ($widgets as $widget) : ?>
                     <option value="<?php echo esc_attr($widget); ?>">
                         <?php echo esc_html($widget); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
-            <?php submit_button('Find Usage'); ?>
+            <?php submit_button(__('Find Usage', 'solid-dynamics')); ?>
         </form>
 
         <?php
@@ -45,10 +46,10 @@ function render_widget_usage_page() {
 
                 $total_instances = array_sum(array_column($results, 'widget_count'));
 
-                echo '<h2>Results:</h2>';
-                echo '<p>Total Instances Across All Posts: ' . $total_instances . '</p>';
+                echo '<h2>' . __('Results', 'solid-dynamics') . ':</h2>';
+                echo '<p>' . __('Total Instances Across All Posts', 'solid-dynamics') . ': ' . $total_instances . '</p>';
                 echo '<table class="widefat fixed" cellspacing="0">';
-                echo '<thead><tr><th>#</th><th>Title</th><th>Post Type</th><th>Status</th><th>Count</th></tr></thead>';
+                echo '<thead><tr><th>#</th><th>' . __('Title', 'solid-dynamics') . '</th><th>' . __('Post Type', 'solid-dynamics') . '</th><th>' . __('Status', 'solid-dynamics') . '</th><th>' . __('Count', 'solid-dynamics') . '</th></tr></thead>';
                 echo '<tbody>';
 
                 $count = 1; // Initialize instance counter
@@ -66,7 +67,7 @@ function render_widget_usage_page() {
 
                 echo '</tbody></table>';
             } else {
-                echo '<p>No templates or posts contain this widget.</p>';
+                echo '<p>' . __('No templates or posts contain this widget', 'solid-dynamics') . '.</p>';
             }
         }
         ?>

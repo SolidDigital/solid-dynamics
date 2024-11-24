@@ -23,8 +23,7 @@ class Settings {
 	public function add_settings_page() {
 		$this->wpsf->add_settings_page(
 			array(
-        'parent_slug' => 'options-general.php',
-				'page_title'  => esc_html__( 'Solid Dynamics', 'solid-dynamics' ),
+				'page_title'  => esc_html__( 'Settings', 'solid-dynamics' ),
 				'menu_title'  => esc_html__( 'Solid Dynamics', 'solid-dynamics' ),
 				'capability'  => 'manage_options',
 			)
