@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.7.1
-Stable tag: 1.6.2
+Stable tag: 1.7.0
 Requires PHP: 7.0
 License: GPLv2
 
@@ -50,6 +50,10 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.7.0 =
+2024-11-26
+- Feature: Update elementor fade in animation css.
 
 = 1.6.2 =
 2024-11-24
