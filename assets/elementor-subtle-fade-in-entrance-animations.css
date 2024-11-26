@@ -1,40 +1,57 @@
-@keyframes fadeInDown {
-	from {
-		opacity: 0;
-		transform: translate3d(0, -10%, 0)
-	}
-	to {
-		opacity: 1;
-		transform: none;
-	}
+/* ------ FadeIn up/down/left/right Animation Smoothing:*/
+.fadeInUp {
+    animation-name: sdfadeInUp !important;
 }
-@keyframes fadeInLeft {
-	from {
-		opacity: 0;
-		transform: translate3d(-10%, 0, 0)
-	}
-	to {
-		opacity: 1;
-		transform: none;
-	}
+@keyframes sdfadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0,10%,0)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
 }
-@keyframes fadeInRight {
-	from {
-		opacity: 0;
-		transform: translate3d(10%, 0, 0)
-	}
-	to {
-		opacity: 1;
-		transform: none;
-	}
+
+.fadeInDown {
+    animation-name: sdfadeInDown !important;
 }
-@keyframes fadeInUp {
-	from {
-		opacity: 0;
-		transform: translate3d(0, 10%, 0)
-	}
-	to {
-		opacity: 1;
-		transform: none;
-	}
+@keyframes sdfadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -10%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fadeInLeft {
+    animation-name: sdfadeInLeft !important;
+}
+@keyframes sdfadeInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-10%, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fadeInRight {
+    animation-name: sdfadeInRight !important;
+}
+@keyframes sdfadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(10%, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
