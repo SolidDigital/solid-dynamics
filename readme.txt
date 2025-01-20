@@ -22,10 +22,11 @@ Solid Dynamics also provides several dynamic tags under the "Solid Dynamics" sec
 
 This plugin also provides several general use and Elementor specific settings under the menu Solid Dynamics. All settings have to be opted in to. Activating the plugin does not activate any of the settings. Activating the plugin does automatically make the dynamic tags listed above available.
 
-General:
+General Settings:
 
 - Disable 404 permalink guessing.
 - Disable the enumeration of users using the rest API. Disables `/wp-json/wp/v2/users` and `/wp-json/wp/v2/users/:ID`
+- Add a sortable column of registration dates to the Users page
 
 Elementor:
 
@@ -50,6 +51,10 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.8.0 =
+2025-01-19
+Adding setting to add to the Users page a sortable registration date column
 
 = 1.7.0 =
 2024-11-26

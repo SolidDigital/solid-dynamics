@@ -23,6 +23,13 @@ function wpsf_register_settings( $wpsf_settings ) {
 			    'type'    => 'checkbox',
 			    'default' => 0,
 			),
+			array(
+			    'id'      => 'sort_users_by_registration_date',
+			    'title'   => 'Sort Users by Registration Date',
+			    'desc'    => 'Adds a column to the Users page that shows a sortable column of registration dates.',
+			    'type'    => 'checkbox',
+			    'default' => 0,
+			),
 		),
 	);
 

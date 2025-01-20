@@ -48,6 +48,14 @@ class Settings {
             add_filter( 'rest_endpoints', [$this, 'disable_user_endpoint'] );
         }
 
+        if ($settings['general_sort_users_by_registration_date']) {
+            // Idea from https://rudrastyh.com/wordpress/sortable-date-user-registered-column.html
+            add_filter( 'manage_users_columns', [$this, 'add_registration_date_column'] );
+            add_filter( 'manage_users_custom_column', [$this, 'get_registration_date'], 10, 3 );
+            // Make registration date sortable
+            add_filter( 'manage_users_sortable_columns', [$this,'make_registration_date_sortable'] );
+        }
+
 		if ($settings['elementor_hide_back_to_wp_editor_button']) {
 			add_action( 'admin_head', [$this, 'elementor_hide_back_to_wp_editor_button'] );
 		}
@@ -112,4 +120,21 @@ class Settings {
 	function elementor_subtle_fade_in_entrance_animations() {
 		wp_enqueue_style('sd-elementor-subtle-fade-in-entrance-animations', plugin_dir_url(__DIR__) . 'assets/elementor-subtle-fade-in-entrance-animations.css', ['e-animations'], '1.0.0');
 	}
+
+	function add_registration_date_column( $columns ) {
+        $columns[ 'registration_date' ] = 'Registration Date';
+        return $columns;
+    }
+
+    function get_registration_date( $row_output, $column_id_attr, $user ) {
+        $date_format = 'j M, Y H:i';
+        if ($column_id_attr == 'registration_date') {
+            $row_output = date( $date_format, strtotime( get_the_author_meta( 'registered', $user ) ) );
+        }
+        return $row_output;
+    }
+
+    function make_registration_date_sortable( $columns ) {
+        return wp_parse_args( array( 'registration_date' => 'registered' ), $columns );
+    }
 }
