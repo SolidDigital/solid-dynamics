@@ -35,10 +35,9 @@ function solid_dynamics_macro($macro) {
     $items = explode('|', $macro);
     $type = $items[0] ?? '';
     $field = $items[1] ?? '';
-    $meta_key = $items[2] ?? '';
 
     // TODO: add index for repeater fields.
-    // $index = $items[3];
+    // $index = $items[2];
 
     if (empty($type) || empty($field)) {
         return;
@@ -48,24 +47,23 @@ function solid_dynamics_macro($macro) {
         case 'post':
             global $post;
 
-            if ($field === 'meta' && !empty($meta_key)) {
-                return get_post_meta($post->ID, $meta_key, true);
+            if ($post->$field !== null) {
+                return $post->$field;
             }
 
-            return $post->$field;
+            return get_post_meta($post->ID, $field, true);
         case 'user':
             $user = wp_get_current_user();
 
-            if ($field === 'meta' && !empty($meta_key)) {
-                return get_user_meta($user->ID, $meta_key, true);
+            if ($user->$field !== null) {
+                return $user->$field;
             }
 
-            return $user->$field;
-        case 'function':
-            $function_name = $field;
+            return get_user_meta($user->ID, $field, true);
 
-            if (is_callable($function_name)) {
-                return $function_name();
+        case 'function':
+            if (is_callable($field)) {
+                return $field();
             };
 
             return;

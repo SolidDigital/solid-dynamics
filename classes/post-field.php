@@ -26,7 +26,7 @@ class PostField extends \Elementor\Core\DynamicTags\Tag {
         $this->add_control(
             'fieldname',
             [
-                'label' => __( 'Callback', 'solid-dynamics' ),
+                'label' => __( 'Post Field', 'solid-dynamics' ),
                 'type' => \Elementor\Controls_Manager::TEXT,
             ]
         );
