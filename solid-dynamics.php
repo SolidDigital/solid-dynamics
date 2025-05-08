@@ -18,6 +18,10 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+require_once( __DIR__ . "/classes/elementor-display-conditions.php" );
+
+new ElementorDisplayConditions();
+
 require_once( __DIR__ . "/classes/elementor-dynamic-tags.php" );
 
 new ElementorDynamicTags();
