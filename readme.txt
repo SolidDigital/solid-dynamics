@@ -10,7 +10,11 @@ Helpful utilities for Elementor, Jet Engine, and beyond.
 
 == Description ==
 
-This plugin provides an Admin Page called, "Widget Usage" under the "Solid Dynamics" menu that shows the individual posts in which a widget is used. Currently, the Elementor Element Manager only shows the total number of usages of a widget. We're always wondering where those widgets are being used, and "Widget Usage" is the answer to that question.
+Elementor Widget Usage
+
+Solid Dynamics provides an Admin Page called, "Widget Usage" under the "Solid Dynamics" menu that shows the individual posts in which a widget is used. Currently, the Elementor Element Manager only shows the total number of usages of a widget. We're always wondering where those widgets are being used, and "Widget Usage" is the answer to that question.
+
+Elementor Dynamic Tags
 
 Solid Dynamics also provides several dynamic tags under the "Solid Dynamics" section in Elementor:
 
@@ -20,7 +24,15 @@ Solid Dynamics also provides several dynamic tags under the "Solid Dynamics" sec
 - `List Pluck`: Pluck `field` off each item in `list` (`src` meta or option), and join with `sep`.
 - `Post Field`: Retrieves custom post field by name.
 
-This plugin also provides several general use and Elementor specific settings under the menu Solid Dynamics. All settings have to be opted in to. Activating the plugin does not activate any of the settings. Activating the plugin does automatically make the dynamic tags listed above available.
+Elementor Display Conditions
+
+Solid Dynamics also provides several display conditions for Elementor:
+
+- `Solid Dynamics Macro`: access post or user data, e.g. `post|post_content`, `user|user_email`, or call any function `function|get_current_user_id`. The result is passed to boolval to show the widget.
+
+Settings
+
+Solid Dynamics also provides several general use and Elementor specific settings under the menu Solid Dynamics. All settings have to be opted in to. Activating the plugin does not activate any of the settings. Activating the plugin does automatically make the dynamic tags listed above available.
 
 General Settings:
 
