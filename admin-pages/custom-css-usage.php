@@ -15,10 +15,15 @@ add_action('admin_menu', function () {
 
 // Function to render the admin page
 function render_custom_css_usage_page() {
-    $results = get_all_elementor_custom_css();
+    $kit_id = \Elementor\Plugin::$instance->kits_manager->get_active_id();
 
+    $settings = get_post_meta( $kit_id, '_elementor_page_settings', true );
+    $site_settings_custom_css_line_count = substr_count( $settings['custom_css'] ?? "", "\n" );
+
+    $results = get_all_elementor_custom_css();
     ?>
     <div class="wrap">
+
         <h1>Find Elementor Custom CSS Usage</h1>
 
         <?php
@@ -28,7 +33,8 @@ function render_custom_css_usage_page() {
             return;
         }
 
-        echo '<h2>' . __('Results', 'solid-dynamics') . ':</h2>';
+        echo '<p>' . __('Total Lines in Site Settings Custom CSS: ', 'solid-dynamics') . $site_settings_custom_css_line_count . '</p>';
+        echo '<h2>' . __('Posts', 'solid-dynamics') . ':</h2>';
         echo '<table class="widefat fixed" cellspacing="0">';
         echo '<thead><tr><th>ID</th><th>' . __('Title', 'solid-dynamics') . '</th><th>' . __('Post Type', 'solid-dynamics') . '</th><th>' . __('Status', 'solid-dynamics') . '</th><th>' . __('Widgets', 'solid-dynamics') . '</th></tr></thead>';
         echo '<tbody>';
