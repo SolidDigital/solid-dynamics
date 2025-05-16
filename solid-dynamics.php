@@ -34,4 +34,5 @@ require_once( __DIR__ . "/settings/settings.php" );
 
 new Settings();
 
-require_once( __DIR__ . "/widget-usage/admin-page.php" );
+require_once( __DIR__ . "/admin-pages/widget-usage.php" );
+require_once( __DIR__ . "/admin-pages/custom-css-usage.php" );
