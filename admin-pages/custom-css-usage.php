@@ -28,12 +28,13 @@ function render_custom_css_usage_page() {
 
         <?php
 
+        echo '<p>' . __('Total Lines in Site Settings Custom CSS: ', 'solid-dynamics') . $site_settings_custom_css_line_count . '</p>';
+
         if (empty($results)) {
-            echo '<p>' . __('No posts contain custom css', 'solid-dynamics') . '.</p>';
+            echo '<p>' . __('No posts contain custom css.', 'solid-dynamics') . '.</p>';
             return;
         }
 
-        echo '<p>' . __('Total Lines in Site Settings Custom CSS: ', 'solid-dynamics') . $site_settings_custom_css_line_count . '</p>';
         echo '<h2>' . __('Posts', 'solid-dynamics') . ':</h2>';
         echo '<table class="widefat fixed" cellspacing="0">';
         echo '<thead><tr><th>ID</th><th>' . __('Title', 'solid-dynamics') . '</th><th>' . __('Post Type', 'solid-dynamics') . '</th><th>' . __('Status', 'solid-dynamics') . '</th><th>' . __('Widgets', 'solid-dynamics') . '</th></tr></thead>';
