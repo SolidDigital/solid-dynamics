@@ -67,6 +67,9 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+= 1.9.1 =
+2025-05-29
+Bumping patch version to have version show correctly in WP Plugin Directory
 
 = 1.9.0 =
 2025-05-29
