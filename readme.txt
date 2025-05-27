@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.8.1
-Stable tag: 1.9.0
+Stable tag: 1.9.1
 Requires PHP: 7.0
 License: GPLv2
 

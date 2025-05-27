@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Solid Dynamics
  * Description:       Helpful utilities for Elementor, Jet Engine, and beyond.
- * Version:           1.8.0
+ * Version:           1.9.1
  * Author:            Solid Digital
  * Author URI:        https://www.soliddigital.com
  * License:           GPLv2
