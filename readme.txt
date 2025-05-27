@@ -1,8 +1,8 @@
 === Solid Dynamics ===
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
-Tested up to: 6.7.1
-Stable tag: 1.8.0
+Tested up to: 6.8.1
+Stable tag: 1.9.0
 Requires PHP: 7.0
 License: GPLv2
 
@@ -13,6 +13,10 @@ Helpful utilities for Elementor, Jet Engine, and beyond.
 Elementor Widget Usage
 
 Solid Dynamics provides an Admin Page called, "Widget Usage" under the "Solid Dynamics" menu that shows the individual posts in which a widget is used. Currently, the Elementor Element Manager only shows the total number of usages of a widget. We're always wondering where those widgets are being used, and "Widget Usage" is the answer to that question.
+
+Elementor Custom CSS Info
+
+A Solid Dynamics Admin Page called, "Custom CSS Usage" shows two types of custom CSS. First, at the top of the page is shown the total lines of custom CSS in the Elementor site settings. Second, in a table below is shown the pages that have widget with custom CSS under the Advanced tab.
 
 Elementor Dynamic Tags
 
@@ -63,6 +67,10 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.9.0 =
+2025-05-29
+Adding information about custom Elementor CSS
 
 = 1.8.0 =
 2025-01-19
