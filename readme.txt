@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.8.1
-Stable tag: 1.9.1
+Stable tag: 1.9.2
 Requires PHP: 7.0
 License: GPLv2
 
@@ -67,12 +67,17 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.9.2 =
+2025-05-27
+Add compare select to display conditions macro.
+
 = 1.9.1 =
-2025-05-29
+2025-05-27
 Bumping patch version to have version show correctly in WP Plugin Directory
 
 = 1.9.0 =
-2025-05-29
+2025-05-26
 Adding information about custom Elementor CSS
 
 = 1.8.0 =
