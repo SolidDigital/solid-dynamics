@@ -5,10 +5,10 @@ namespace Solid;
 add_action('admin_menu', function () {
     add_submenu_page(
         'solid-dynamics-settings',
-        __('Elementor Widget Usage', 'solid-dynamics'),   // Page title
+        __('Widget Usage', 'solid-dynamics'),   // Page title
         __('Widget Usage', 'solid-dynamics'),            // Menu title
         'manage_options',          // Capability
-        'elementor-widget-usage',  // Menu slug
+        'solid-dynamics-widget-usage',  // Menu slug
         __NAMESPACE__ . '\render_widget_usage_page' // Callback function
     );
 });
