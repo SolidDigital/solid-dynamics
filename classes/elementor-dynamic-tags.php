@@ -17,6 +17,7 @@ class ElementorDynamicTags {
         require_once( __DIR__ . "/menu.php" );
         require_once( __DIR__ . "/list-pluck.php" );
         require_once( __DIR__ . "/post-field.php" );
+        require_once( __DIR__ . "/post-type-label.php" );
 
         $dynamic_tags->register( new \Solid\ParentMeta() );
         $dynamic_tags->register( new \Solid\ParentMetaImage() );
@@ -24,5 +25,7 @@ class ElementorDynamicTags {
         $dynamic_tags->register( new \Solid\Menu() );
         $dynamic_tags->register( new \Solid\ListPluck() );
         $dynamic_tags->register( new \Solid\PostField() );
+        $dynamic_tags->register( new \Solid\PostTypeLabel() );
+
     }
 }
