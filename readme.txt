@@ -2,7 +2,7 @@
 Contributors: soliddigital,lukechinworth,peterajtai
 Tags: elementor, dynamic tags, jet engine, macros
 Tested up to: 6.8.1
-Stable tag: 1.9.2
+Stable tag: 1.10.0
 Requires PHP: 7.0
 License: GPLv2
 
@@ -27,12 +27,13 @@ Solid Dynamics also provides several dynamic tags under the "Solid Dynamics" sec
 - `Parent Meta`: Retrieves the meta value of the parent post based on the entered meta key.
 - `List Pluck`: Pluck `field` off each item in `list` (`src` meta or option), and join with `sep`.
 - `Post Field`: Retrieves custom post field by name.
+- `Post Type Label`: Retrieves post type label.
 
 Elementor Display Conditions
 
 Solid Dynamics also provides several display conditions for Elementor:
 
-- `Solid Dynamics Macro`: access post or user data, e.g. `post|post_content`, `user|user_email`, or call any function `function|get_current_user_id`. The result is passed to boolval to show the widget.
+- `Solid Dynamics Macro`: access post or user data, e.g. `post|post_content`, `user|user_email`, or call any function `function|get_current_user_id`. The result can be checked directly or compared against a value.
 
 Settings
 
@@ -67,6 +68,11 @@ The code is managed on [github](https://github.com/SolidDigital/solid-dynamics),
 3. The various Dynamic Tag options
 
 == Changelog ==
+
+= 1.10.0 =
+2025-06-02
+- Add dynamic tag to get post type label.
+- Add compare option to display condition.
 
 = 1.9.2 =
 2025-05-27
