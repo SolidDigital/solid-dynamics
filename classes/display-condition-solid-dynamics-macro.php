@@ -16,12 +16,21 @@ class DisplayConditionSolidDynamicsMacro extends \ElementorPro\Modules\DisplayCo
     }
 
     public function check( $args ) : bool {
-        $value = solid_dynamics_macro($args['macro']);
+        $result = solid_dynamics_macro($args['macro']);
+        $compare = $args['compare'] ?? '';
+        $value = $args['value'] ?? '';
 
-        if (($args['compare'] ?? '') === 'true') {
-            return boolval($value);
-        } else {
-            return ! boolval($value);
+        switch ($compare) {
+            case 'true':
+                return boolval($result);
+            case 'false':
+                return ! boolval($result);
+            case 'equal':
+                return $result === $value;
+            case 'not_equal':
+                return $result !== $value;
+            default:
+                return false;
         }
     }
 
@@ -42,8 +51,17 @@ class DisplayConditionSolidDynamicsMacro extends \ElementorPro\Modules\DisplayCo
                 'options' => [
                     'true' => __( 'Is True', 'solid-dynamics' ),
                     'false' => __( 'Is False', 'solid-dynamics' ),
-                    // TODO: add other options, equal, not equal, etc.
+                    'equal' => __( 'Equal', 'solid-dynamics' ),
+                    'not_equal' => __( 'Not Equal', 'solid-dynamics' ),
+                    // TODO: add other options, contains, not contains, etc.
                 ],
+            ]
+        );
+        $this->add_control(
+            'value',
+            [
+                'label' => __( 'Value', 'solid-dynamics' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
             ]
         );
     }
